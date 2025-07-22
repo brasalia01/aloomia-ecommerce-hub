@@ -34,14 +34,14 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <a
+              <button
                 key={item.name}
-                href={item.href}
-                className="text-foreground hover:text-primary transition-colors relative group"
+                onClick={() => window.location.href = item.href}
+                className="text-foreground hover:text-primary transition-colors relative group cursor-pointer"
               >
                 {item.name}
                 <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-              </a>
+              </button>
             ))}
           </nav>
 
@@ -80,7 +80,12 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             </Button>
 
             {/* Cart */}
-            <Button variant="ghost" size="icon" className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => window.location.href = '/cart'}
+            >
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
                 <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
@@ -120,14 +125,16 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
           <div className="lg:hidden py-4 border-t border-border animate-slide-up">
             <nav className="flex flex-col space-y-4">
               {navigationItems.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
-                  className="text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    window.location.href = item.href;
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer"
                 >
                   {item.name}
-                </a>
+                </button>
               ))}
               <div className="flex items-center space-x-4 pt-4 border-t border-border">
                 <Button variant="ghost" size="sm" className="flex items-center space-x-2">

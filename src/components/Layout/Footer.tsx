@@ -7,24 +7,24 @@ export const Footer = () => {
   const quickLinks = [
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Shipping Info', href: '/shipping' },
-    { name: 'Returns', href: '/returns' },
+    { name: 'FAQ', href: '/contact' },
+    { name: 'Shipping Info', href: '/contact' },
+    { name: 'Returns', href: '/contact' },
   ];
 
   const categories = [
-    { name: 'Electronics', href: '/categories/electronics' },
-    { name: 'Fashion', href: '/categories/fashion' },
-    { name: 'Home & Garden', href: '/categories/home' },
-    { name: 'Sports', href: '/categories/sports' },
-    { name: 'Books', href: '/categories/books' },
+    { name: 'Electronics', href: '/products?category=Electronics' },
+    { name: 'Fashion', href: '/products?category=Fashion' },
+    { name: 'Home & Garden', href: '/products?category=Home' },
+    { name: 'Sports', href: '/products?category=Sports' },
+    { name: 'Books', href: '/products?category=Books' },
   ];
 
   const policies = [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Refund Policy', href: '/refund' },
-    { name: 'Cookie Policy', href: '/cookies' },
+    { name: 'Privacy Policy', href: '/contact' },
+    { name: 'Terms of Service', href: '/contact' },
+    { name: 'Refund Policy', href: '/contact' },
+    { name: 'Cookie Policy', href: '/contact' },
   ];
 
   return (
@@ -90,12 +90,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                  <button
+                    onClick={() => window.location.href = link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -107,12 +107,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {categories.map((category) => (
                 <li key={category.name}>
-                  <a
-                    href={category.href}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                  <button
+                    onClick={() => window.location.href = category.href}
+                    className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     {category.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -124,12 +124,12 @@ export const Footer = () => {
             <ul className="space-y-3 mb-8">
               {policies.map((policy) => (
                 <li key={policy.name}>
-                  <a
-                    href={policy.href}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                  <button
+                    onClick={() => window.location.href = policy.href}
+                    className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
                   >
                     {policy.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
