@@ -136,7 +136,7 @@ export const Footer = () => {
 
             <div>
               <h4 className="font-semibold text-foreground mb-4">Follow Us</h4>
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 mb-6">
                 {[
                   { icon: Facebook, href: '#' },
                   { icon: Twitter, href: '#' },
@@ -149,6 +149,16 @@ export const Footer = () => {
                     </a>
                   </Button>
                 ))}
+              </div>
+              
+              <div className="space-y-2 text-sm">
+                <p className="font-semibold text-foreground">
+                  Founder: Mr. Salia Abdallah Banda
+                </p>
+                <div className="space-y-1 text-muted-foreground">
+                  <p>📧 sallahbanda442@gmail.com</p>
+                  <p>📱 0538163683 / 0555528622</p>
+                </div>
               </div>
             </div>
           </div>
