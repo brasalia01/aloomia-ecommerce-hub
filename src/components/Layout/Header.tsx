@@ -3,6 +3,7 @@ import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { useFavorites } from '@/hooks/useFavorites';
 
 interface HeaderProps {
   cartItemCount?: number;
@@ -11,6 +12,7 @@ interface HeaderProps {
 export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { favorites } = useFavorites();
 
   const navigationItems = [
     { name: 'Home', href: '/' },
@@ -70,12 +72,27 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             </Button>
 
             {/* Wishlist */}
-            <Button variant="ghost" size="icon" className="hidden lg:flex">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hidden lg:flex relative"
+              onClick={() => window.location.href = '/profile'}
+            >
               <Heart className="w-5 h-5" />
+              {favorites.length > 0 && (
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
+                  {favorites.length}
+                </Badge>
+              )}
             </Button>
 
             {/* Account */}
-            <Button variant="ghost" size="icon" className="hidden lg:flex">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hidden lg:flex"
+              onClick={() => window.location.href = '/profile'}
+            >
               <User className="w-5 h-5" />
             </Button>
 
@@ -137,11 +154,21 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                 </button>
               ))}
               <div className="flex items-center space-x-4 pt-4 border-t border-border">
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="flex items-center space-x-2"
+                  onClick={() => window.location.href = '/profile'}
+                >
                   <Heart className="w-4 h-4" />
-                  <span>Wishlist</span>
+                  <span>Wishlist ({favorites.length})</span>
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="flex items-center space-x-2"
+                  onClick={() => window.location.href = '/profile'}
+                >
                   <User className="w-4 h-4" />
                   <span>Account</span>
                 </Button>

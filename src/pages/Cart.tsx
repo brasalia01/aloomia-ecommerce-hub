@@ -295,7 +295,7 @@ const Cart = () => {
                 <Button
                   size="lg"
                   className="w-full group"
-                  onClick={handleCheckout}
+                  onClick={() => window.location.href = '/checkout'}
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
