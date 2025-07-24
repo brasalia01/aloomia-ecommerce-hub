@@ -1,9 +1,18 @@
 import { useState } from 'react';
-import { Search, ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, User, Heart, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/Auth/AuthModal';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface HeaderProps {
   cartItemCount?: number;
@@ -13,6 +22,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { favorites } = useFavorites();
+  const { user, signOut, loading } = useAuth();
 
   const navigationItems = [
     { name: 'Home', href: '/' },
@@ -87,14 +97,32 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             </Button>
 
             {/* Account */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="hidden lg:flex"
-              onClick={() => window.location.href = '/profile'}
-            >
-              <User className="w-5 h-5" />
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="hidden lg:flex">
+                    <User className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <AuthModal>
+                <Button variant="ghost" size="icon" className="hidden lg:flex">
+                  <User className="w-5 h-5" />
+                </Button>
+              </AuthModal>
+            )}
 
             {/* Cart */}
             <Button 
@@ -163,15 +191,28 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                   <Heart className="w-4 h-4" />
                   <span>Wishlist ({favorites.length})</span>
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="flex items-center space-x-2"
-                  onClick={() => window.location.href = '/profile'}
-                >
-                  <User className="w-4 h-4" />
-                  <span>Account</span>
-                </Button>
+                {user ? (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="flex items-center space-x-2"
+                    onClick={() => window.location.href = '/profile'}
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Account</span>
+                  </Button>
+                ) : (
+                  <AuthModal>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="flex items-center space-x-2"
+                    >
+                      <User className="w-4 h-4" />
+                      <span>Sign In</span>
+                    </Button>
+                  </AuthModal>
+                )}
               </div>
             </nav>
           </div>

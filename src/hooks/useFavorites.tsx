@@ -1,51 +1,137 @@
 import { useState, useEffect } from 'react';
-
-export interface FavoriteItem {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
+import { supabase, type Product, type Favorite } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 export const useFavorites = () => {
-  const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  // Fetch favorites from Supabase
+  const fetchFavorites = async () => {
+    if (!user) {
+      setFavorites([]);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('favorites')
+        .select(`
+          *,
+          product:products(*)
+        `)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      setFavorites(data || []);
+    } catch (error: any) {
+      console.error('Error fetching favorites:', error);
+    }
+  };
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem('aloomia-favorites');
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
+    fetchFavorites();
+  }, [user]);
+
+  const addToFavorites = async (product: Product) => {
+    if (!user) {
+      toast({
+        title: "Please sign in",
+        description: "You need to be signed in to add favorites.",
+        variant: "destructive",
+      });
+      return;
     }
-  }, []);
 
-  const addToFavorites = (item: FavoriteItem) => {
-    const updatedFavorites = [...favorites, item];
-    setFavorites(updatedFavorites);
-    localStorage.setItem('aloomia-favorites', JSON.stringify(updatedFavorites));
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('favorites')
+        .insert({
+          user_id: user.id,
+          product_id: product.id,
+        });
+
+      if (error) throw error;
+
+      // Add to local state
+      const newFavorite: Favorite = {
+        id: crypto.randomUUID(),
+        user_id: user.id,
+        product_id: product.id,
+        created_at: new Date().toISOString(),
+        product,
+      };
+      setFavorites(prev => [...prev, newFavorite]);
+
+      toast({
+        title: "Added to favorites",
+        description: `${product.name} has been added to your favorites.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to add to favorites. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeFromFavorites = (id: number) => {
-    const updatedFavorites = favorites.filter(item => item.id !== id);
-    setFavorites(updatedFavorites);
-    localStorage.setItem('aloomia-favorites', JSON.stringify(updatedFavorites));
+  const removeFromFavorites = async (productId: string) => {
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('product_id', productId);
+
+      if (error) throw error;
+
+      // Remove from local state
+      setFavorites(prev => prev.filter(fav => fav.product_id !== productId));
+
+      toast({
+        title: "Removed from favorites",
+        description: "Item has been removed from your favorites.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to remove from favorites. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const isFavorite = (id: number) => {
-    return favorites.some(item => item.id === id);
+  const isFavorite = (productId: string) => {
+    return favorites.some(fav => fav.product_id === productId);
   };
 
-  const toggleFavorite = (item: FavoriteItem) => {
-    if (isFavorite(item.id)) {
-      removeFromFavorites(item.id);
+  const toggleFavorite = async (product: Product) => {
+    if (isFavorite(product.id)) {
+      await removeFromFavorites(product.id);
     } else {
-      addToFavorites(item);
+      await addToFavorites(product);
     }
   };
 
   return {
     favorites,
+    loading,
     addToFavorites,
     removeFromFavorites,
     isFavorite,
-    toggleFavorite
+    toggleFavorite,
+    fetchFavorites,
   };
 };
