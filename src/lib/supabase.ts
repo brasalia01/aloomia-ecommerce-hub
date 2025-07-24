@@ -3,7 +3,40 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Create a mock client if environment variables are missing
+const createMockClient = () => ({
+  auth: {
+    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+    onAuthStateChange: () => ({ 
+      data: { 
+        subscription: { unsubscribe: () => {} } 
+      } 
+    }),
+    signUp: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+    signInWithPassword: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+    signOut: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+    resetPasswordForEmail: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+  },
+  from: () => ({
+    select: () => ({ 
+      eq: () => Promise.resolve({ data: [], error: null }),
+      single: () => Promise.resolve({ data: null, error: null }),
+    }),
+    insert: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+    update: () => ({ eq: () => Promise.resolve({ error: new Error('Supabase not configured') }) }),
+    delete: () => ({ eq: () => Promise.resolve({ error: new Error('Supabase not configured') }) }),
+    upsert: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+  }),
+});
+
+export const supabase = (!supabaseUrl || !supabaseAnonKey) 
+  ? createMockClient() as any
+  : createClient(supabaseUrl, supabaseAnonKey);
+
+// Log warning if using mock client
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('⚠️  Supabase environment variables are missing. Please ensure your Supabase project is properly connected in Lovable.');
+}
 
 // Types for our database tables
 export interface Profile {
