@@ -43,6 +43,12 @@ export function AuthModal({ children }: AuthModalProps) {
     if (formData.password !== formData.confirmPassword) {
       return;
     }
+    
+    // Basic password strength validation
+    if (formData.password.length < 8) {
+      alert('Password must be at least 8 characters long');
+      return;
+    }
     setLoading(true);
     try {
       await signUp(formData.email, formData.password, formData.fullName);
