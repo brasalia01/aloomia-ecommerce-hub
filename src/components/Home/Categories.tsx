@@ -1,5 +1,6 @@
 import { Smartphone, Headphones, Watch, ShoppingBag, Home, Gamepad2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 interface Category {
@@ -72,35 +73,36 @@ export const Categories = () => {
         {/* Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
           {categories.map((category, index) => (
-            <Card
-              key={category.id}
-              className={cn(
-                "group cursor-pointer border-border hover:border-primary/50",
-                "transition-all duration-300 hover:shadow-medium hover:-translate-y-1",
-                "bg-gradient-card animate-fade-in"
-              )}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <CardContent className="p-6 text-center">
-                <div
-                  className={cn(
-                    "w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center",
-                    "transition-transform duration-300 group-hover:scale-110",
-                    category.color
-                  )}
-                >
-                  <category.icon className="w-8 h-8" />
-                </div>
-                
-                <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {category.name}
-                </h3>
-                
-                <p className="text-sm text-muted-foreground">
-                  {category.itemCount} items
-                </p>
-              </CardContent>
-            </Card>
+            <Link key={category.id} to="/categories">
+              <Card
+                className={cn(
+                  "group cursor-pointer border-border hover:border-primary/50",
+                  "transition-all duration-300 hover:shadow-medium hover:-translate-y-1",
+                  "bg-gradient-card animate-fade-in"
+                )}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardContent className="p-6 text-center">
+                  <div
+                    className={cn(
+                      "w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center",
+                      "transition-transform duration-300 group-hover:scale-110",
+                      category.color
+                    )}
+                  >
+                    <category.icon className="w-8 h-8" />
+                  </div>
+                  
+                  <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {category.name}
+                  </h3>
+                  
+                  <p className="text-sm text-muted-foreground">
+                    {category.itemCount} items
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
 
@@ -108,9 +110,9 @@ export const Categories = () => {
         <div className="text-center mt-12">
           <p className="text-muted-foreground">
             Can't find what you're looking for?{' '}
-            <a href="/products" className="text-primary hover:underline font-medium">
+            <Link to="/products" className="text-primary hover:underline font-medium">
               Browse all products
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import heroBanner from '@/assets/hero-banner.jpg';
 
 export const HeroSection = () => {
@@ -40,24 +41,26 @@ export const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in">
-            <Button
-              size="lg"
-              className="bg-secondary hover:bg-secondary-hover text-secondary-foreground shadow-glow group"
-              onClick={() => window.location.href = '/products'}
-            >
-              <ShoppingBag className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-              Shop Now
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/products">
+              <Button
+                size="lg"
+                className="bg-secondary hover:bg-secondary-hover text-secondary-foreground shadow-glow group"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2 group-hover:animate-pulse" />
+                Shop Now
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
-              onClick={() => window.location.href = '/categories'}
-            >
-              Explore Collection
-            </Button>
+            <Link to="/categories">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white/30 text-slate-800 hover:bg-white/10 hover:text-white backdrop-blur-sm transition-colors"
+              >
+                Explore Collection
+              </Button>
+            </Link>
           </div>
 
           {/* Features */}

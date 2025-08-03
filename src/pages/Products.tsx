@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Filter, Grid, List, Search, SlidersHorizontal } from 'lucide-react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { BackButton } from '@/components/ui/back-button';
 import { ProductCard, Product } from '@/components/Products/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -190,6 +191,7 @@ const Products = () => {
       <main className="container mx-auto px-4 lg:px-8 py-8">
         {/* Page Header */}
         <div className="mb-8">
+          <BackButton className="mb-4" />
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">All Products</h1>
           <p className="text-muted-foreground">Discover our complete collection of premium products</p>
         </div>

@@ -3,6 +3,7 @@ import { Search, ShoppingCart, Menu, X, User, Heart, LogOut } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/Auth/AuthModal';
@@ -23,6 +24,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { favorites } = useFavorites();
   const { user, signOut, loading } = useAuth();
+  const navigate = useNavigate();
 
   const navigationItems = [
     { name: 'Home', href: '/' },
@@ -38,22 +40,24 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Aloomia
-            </h1>
+            <Link to="/">
+              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity">
+                Aloomia
+              </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <button
+              <Link
                 key={item.name}
-                onClick={() => window.location.href = item.href}
+                to={item.href}
                 className="text-foreground hover:text-primary transition-colors relative group cursor-pointer"
               >
                 {item.name}
                 <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -86,7 +90,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               variant="ghost" 
               size="icon" 
               className="hidden lg:flex relative"
-              onClick={() => window.location.href = '/profile'}
+              onClick={() => navigate('/profile')}
             >
               <Heart className="w-5 h-5" />
               {favorites.length > 0 && (
@@ -105,7 +109,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
@@ -129,7 +133,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               variant="ghost" 
               size="icon" 
               className="relative"
-              onClick={() => window.location.href = '/cart'}
+              onClick={() => navigate('/cart')}
             >
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
@@ -170,34 +174,32 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
           <div className="lg:hidden py-4 border-t border-border animate-slide-up">
             <nav className="flex flex-col space-y-4">
               {navigationItems.map((item) => (
-                <button
+                <Link
                   key={item.name}
-                  onClick={() => {
-                    window.location.href = item.href;
-                    setIsMenuOpen(false);
-                  }}
+                  to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
                   className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer"
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
               <div className="flex items-center space-x-4 pt-4 border-t border-border">
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   className="flex items-center space-x-2"
-                  onClick={() => window.location.href = '/profile'}
+                  onClick={() => navigate('/profile')}
                 >
                   <Heart className="w-4 h-4" />
                   <span>Wishlist ({favorites.length})</span>
                 </Button>
                 {user ? (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="flex items-center space-x-2"
-                    onClick={() => window.location.href = '/profile'}
-                  >
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="flex items-center space-x-2"
+                      onClick={() => navigate('/profile')}
+                    >
                     <User className="w-4 h-4" />
                     <span>Account</span>
                   </Button>

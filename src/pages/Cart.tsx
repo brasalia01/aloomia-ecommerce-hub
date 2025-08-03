@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { BackButton } from '@/components/ui/back-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -106,10 +108,12 @@ const Cart = () => {
             <p className="text-muted-foreground mb-8">
               Looks like you haven't added any items to your cart yet.
             </p>
-            <Button size="lg" onClick={() => window.location.href = '/products'}>
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Continue Shopping
-            </Button>
+            <Link to="/products">
+              <Button size="lg">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Continue Shopping
+              </Button>
+            </Link>
           </div>
         </main>
 
@@ -125,6 +129,7 @@ const Cart = () => {
       <main className="container mx-auto px-4 lg:px-8 py-8">
         {/* Page Header */}
         <div className="mb-8">
+          <BackButton className="mb-4" />
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">Shopping Cart</h1>
           <p className="text-muted-foreground">
             Review your items and proceed to checkout
@@ -138,14 +143,15 @@ const Cart = () => {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Cart Items ({cartItems.length})</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => window.location.href = '/products'}
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Continue Shopping
-                  </Button>
+                  <Link to="/products">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Continue Shopping
+                    </Button>
+                  </Link>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -292,14 +298,15 @@ const Cart = () => {
                   </p>
                 )}
 
-                <Button
-                  size="lg"
-                  className="w-full group"
-                  onClick={() => window.location.href = '/checkout'}
-                >
-                  Proceed to Checkout
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link to="/checkout">
+                  <Button
+                    size="lg"
+                    className="w-full group"
+                  >
+                    Proceed to Checkout
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
 
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground">

@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { User, ShoppingBag, Settings, Heart, Bell, Shield, CreditCard } from 'lucide-react';
+import { BackButton } from '@/components/ui/back-button';
 
 export default function Profile() {
   const [profile, setProfile] = useState({
@@ -49,6 +50,7 @@ export default function Profile() {
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="mb-8">
+          <BackButton className="mb-4" />
           <h1 className="text-3xl font-bold mb-2">My Profile</h1>
           <p className="text-muted-foreground">Manage your account and preferences</p>
         </div>

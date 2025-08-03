@@ -1,8 +1,10 @@
 import { Users, Target, Award, Heart, ArrowRight, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { BackButton } from '@/components/ui/back-button';
 import { cn } from '@/lib/utils';
 
 const About = () => {
@@ -69,6 +71,7 @@ const About = () => {
         {/* Hero Section */}
         <section className="bg-gradient-primary text-primary-foreground py-16 lg:py-24">
           <div className="container mx-auto px-4 lg:px-8">
+            <BackButton className="mb-8 text-primary-foreground hover:text-primary-foreground/80" />
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 animate-fade-in">
                 About Aloomia
@@ -107,13 +110,17 @@ const About = () => {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button size="lg" onClick={() => window.location.href = '/products'}>
-                      Shop Our Products
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
-                    <Button variant="outline" size="lg" onClick={() => window.location.href = '/contact'}>
-                      Get in Touch
-                    </Button>
+                    <Link to="/products">
+                      <Button size="lg">
+                        Shop Our Products
+                        <ArrowRight className="w-5 h-5 ml-2" />
+                      </Button>
+                    </Link>
+                    <Link to="/contact">
+                      <Button variant="outline" size="lg">
+                        Get in Touch
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 
@@ -250,15 +257,16 @@ const About = () => {
             <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
               Join thousands of satisfied customers and discover why Aloomia is the preferred choice for premium products.
             </p>
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => window.location.href = '/products'}
-              className="group"
-            >
-              Browse Our Collection
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/products">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="group"
+              >
+                Browse Our Collection
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </section>
       </main>

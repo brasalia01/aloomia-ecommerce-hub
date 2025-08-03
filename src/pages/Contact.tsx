@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { BackButton } from '@/components/ui/back-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,14 +94,17 @@ const Contact = () => {
       <main>
         {/* Hero Section */}
         <section className="bg-gradient-primary text-primary-foreground py-16 lg:py-24">
-          <div className="container mx-auto px-4 lg:px-8 text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 animate-fade-in">
-              Get in Touch
-            </h1>
-            <p className="text-xl lg:text-2xl text-primary-foreground/90 max-w-3xl mx-auto animate-slide-up">
-              We're here to help! Reach out to us with any questions, concerns, or feedback. 
-              Our support team is ready to assist you.
-            </p>
+          <div className="container mx-auto px-4 lg:px-8">
+            <BackButton className="mb-8 text-primary-foreground hover:text-primary-foreground/80" />
+            <div className="text-center">
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 animate-fade-in">
+                Get in Touch
+              </h1>
+              <p className="text-xl lg:text-2xl text-primary-foreground/90 max-w-3xl mx-auto animate-slide-up">
+                We're here to help! Reach out to us with any questions, concerns, or feedback. 
+                Our support team is ready to assist you.
+              </p>
+            </div>
           </div>
         </section>
 

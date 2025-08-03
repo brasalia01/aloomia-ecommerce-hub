@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, CreditCard, Smartphone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { BackButton } from '@/components/ui/back-button';
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -37,14 +38,7 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4 max-w-6xl">
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/cart')}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Cart
-        </Button>
+        <BackButton className="mb-6">Back to Cart</BackButton>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Checkout Form */}
