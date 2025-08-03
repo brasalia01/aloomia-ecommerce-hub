@@ -6,6 +6,13 @@ import productWatch from '@/assets/product-watch.jpg';
 import productHeadphones from '@/assets/product-headphones.jpg';
 import productPhone from '@/assets/product-phone.jpg';
 import productBag from '@/assets/product-bag.jpg';
+import productSnacks from '@/assets/product-snacks.jpg';
+import productAppleServices from '@/assets/product-apple-services.jpg';
+import productNetflix from '@/assets/product-netflix.jpg';
+import productGiftCards from '@/assets/product-gift-cards.jpg';
+import productWebServices from '@/assets/product-web-services.jpg';
+import productCvDesign from '@/assets/product-cv-design.jpg';
+import productBranding from '@/assets/product-branding.jpg';
 
 export const FeaturedProducts = () => {
   // Mock data - in real app this would come from API
@@ -53,6 +60,78 @@ export const FeaturedProducts = () => {
       category: 'Fashion',
       isNew: true,
     },
+    {
+      id: '5',
+      name: 'Gourmet Snack Collection',
+      price: 29.99,
+      originalPrice: 39.99,
+      image: productSnacks,
+      rating: 4.5,
+      reviewCount: 45,
+      category: 'Food & Snacks',
+      isSale: true,
+    },
+    {
+      id: '6',
+      name: 'Apple Services Bundle',
+      price: 19.99,
+      image: productAppleServices,
+      rating: 4.8,
+      reviewCount: 312,
+      category: 'Subscriptions',
+      isNew: true,
+    },
+    {
+      id: '7',
+      name: 'Netflix Premium Subscription',
+      price: 15.99,
+      image: productNetflix,
+      rating: 4.7,
+      reviewCount: 1024,
+      category: 'Subscriptions',
+    },
+    {
+      id: '8',
+      name: 'Universal Gift Cards',
+      price: 50.00,
+      image: productGiftCards,
+      rating: 4.9,
+      reviewCount: 89,
+      category: 'Gift Cards',
+      isNew: true,
+    },
+    {
+      id: '9',
+      name: 'Web Development Service',
+      price: 999.99,
+      originalPrice: 1299.99,
+      image: productWebServices,
+      rating: 4.9,
+      reviewCount: 156,
+      category: 'Services',
+      isSale: true,
+    },
+    {
+      id: '10',
+      name: 'Professional CV Design',
+      price: 49.99,
+      image: productCvDesign,
+      rating: 4.8,
+      reviewCount: 78,
+      category: 'Services',
+      isNew: true,
+    },
+    {
+      id: '11',
+      name: 'Branding & Design Package',
+      price: 499.99,
+      originalPrice: 699.99,
+      image: productBranding,
+      rating: 4.9,
+      reviewCount: 92,
+      category: 'Services',
+      isSale: true,
+    },
   ]);
 
   const handleAddToCart = (product: Product) => {
@@ -85,7 +164,7 @@ export const FeaturedProducts = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 mb-12">
           {products.map((product, index) => (
             <div
               key={product.id}
