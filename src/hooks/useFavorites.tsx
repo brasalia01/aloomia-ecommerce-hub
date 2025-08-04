@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase, type Product, type Favorite } from '@/lib/supabase';
+import { supabase, type Favorite } from '@/lib/supabase';
+import { Product } from '@/components/Products/ProductCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -63,7 +64,16 @@ export const useFavorites = () => {
         user_id: user.id,
         product_id: product.id,
         created_at: new Date().toISOString(),
-        product,
+        product: {
+          ...product,
+          is_new: product.isNew || false,
+          is_sale: product.isSale || false,
+          review_count: product.reviewCount,
+          stock_quantity: 100,
+          description: `${product.name} - Premium quality product`,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
       };
       setFavorites(prev => [...prev, newFavorite]);
 

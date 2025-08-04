@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '@/contexts/CartContext';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { BackButton } from '@/components/ui/back-button';
@@ -23,52 +24,11 @@ interface CartItem {
 }
 
 const Cart = () => {
-  // Mock cart data - in real app this would come from context/state management
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: '1',
-      name: 'Premium Luxury Watch',
-      price: 299.99,
-      image: productWatch,
-      quantity: 1,
-      category: 'Accessories',
-    },
-    {
-      id: '2',
-      name: 'Wireless Pro Headphones',
-      price: 199.99,
-      image: productHeadphones,
-      quantity: 2,
-      category: 'Electronics',
-    },
-    {
-      id: '3',
-      name: 'Smartphone Pro Max',
-      price: 899.99,
-      image: productPhone,
-      quantity: 1,
-      category: 'Electronics',
-    },
-  ]);
+  const { cartItems, updateQuantity, removeFromCart, getTotalPrice } = useCart();
 
   const [promoCode, setPromoCode] = useState('');
   const [isPromoApplied, setIsPromoApplied] = useState(false);
 
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity === 0) {
-      removeItem(id);
-      return;
-    }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
 
   const applyPromoCode = () => {
     if (promoCode.toLowerCase() === 'welcome10') {
@@ -79,7 +39,7 @@ const Cart = () => {
     }
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = getTotalPrice();
   const discount = isPromoApplied ? subtotal * 0.1 : 0;
   const shipping = subtotal > 100 ? 0 : 15;
   const tax = (subtotal - discount) * 0.08;
@@ -97,7 +57,7 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-background">
-        <Header cartItemCount={0} />
+        <Header />
         
         <main className="container mx-auto px-4 lg:px-8 py-16">
           <div className="text-center max-w-md mx-auto">
@@ -124,7 +84,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header cartItemCount={cartItems.length} />
+      <Header />
       
       <main className="container mx-auto px-4 lg:px-8 py-8">
         {/* Page Header */}
@@ -179,7 +139,7 @@ const Cart = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => removeFromCart(item.id)}
                             className="text-destructive hover:text-destructive"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -188,7 +148,7 @@ const Cart = () => {
 
                         <div className="flex items-center justify-between">
                           <div className="text-lg font-bold">
-                            ${item.price.toFixed(2)}
+                            GH₵ {item.price.toFixed(2)}
                           </div>
 
                           {/* Quantity Controls */}
@@ -216,7 +176,7 @@ const Cart = () => {
                         </div>
 
                         <div className="text-right text-sm text-muted-foreground mt-2">
-                          Subtotal: ${(item.price * item.quantity).toFixed(2)}
+                          Subtotal: GH₵ {(item.price * item.quantity).toFixed(2)}
                         </div>
                       </div>
                     </div>
@@ -259,13 +219,13 @@ const Cart = () => {
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>GH₵ {subtotal.toFixed(2)}</span>
                 </div>
 
                 {discount > 0 && (
                   <div className="flex justify-between text-green-600">
                     <span>Discount (10%)</span>
-                    <span>-${discount.toFixed(2)}</span>
+                    <span>-GH₵ {discount.toFixed(2)}</span>
                   </div>
                 )}
 
@@ -275,26 +235,26 @@ const Cart = () => {
                     {shipping === 0 ? (
                       <span className="text-green-600">Free</span>
                     ) : (
-                      `$${shipping.toFixed(2)}`
+                      `GH₵ ${shipping.toFixed(2)}`
                     )}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>GH₵ {tax.toFixed(2)}</span>
                 </div>
 
                 <Separator />
 
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>GH₵ {total.toFixed(2)}</span>
                 </div>
 
                 {shipping > 0 && (
                   <p className="text-sm text-muted-foreground">
-                    💡 Add ${(100 - subtotal).toFixed(2)} more for free shipping
+                    💡 Add GH₵ {(100 - subtotal).toFixed(2)} more for free shipping
                   </p>
                 )}
 

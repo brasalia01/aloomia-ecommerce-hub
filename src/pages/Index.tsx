@@ -8,7 +8,7 @@ import { Testimonials } from '@/components/Home/Testimonials';
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header cartItemCount={0} />
+      <Header />
       
       <main>
         <HeroSection />

@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProductCard, Product } from '@/components/Products/ProductCard';
+import { useCart } from '@/contexts/CartContext';
+import { useFavorites } from '@/hooks/useFavorites';
+import { Link } from 'react-router-dom';
 import productWatch from '@/assets/product-watch.jpg';
 import productHeadphones from '@/assets/product-headphones.jpg';
 import productPhone from '@/assets/product-phone.jpg';
@@ -15,6 +18,9 @@ import productCvDesign from '@/assets/product-cv-design.jpg';
 import productBranding from '@/assets/product-branding.jpg';
 
 export const FeaturedProducts = () => {
+  const { addToCart } = useCart();
+  const { toggleFavorite } = useFavorites();
+  
   // Mock data - in real app this would come from API
   const [products] = useState<Product[]>([
     {
@@ -135,13 +141,11 @@ export const FeaturedProducts = () => {
   ]);
 
   const handleAddToCart = (product: Product) => {
-    console.log('Adding to cart:', product);
-    // TODO: Implement cart functionality
+    addToCart(product);
   };
 
   const handleToggleWishlist = (product: Product) => {
-    console.log('Toggle wishlist:', product);
-    // TODO: Implement wishlist functionality
+    toggleFavorite(product);
   };
 
   const handleQuickView = (product: Product) => {
@@ -183,10 +187,12 @@ export const FeaturedProducts = () => {
 
         {/* View All Button */}
         <div className="text-center">
-          <Button size="lg" className="group">
-            View All Products
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link to="/products">
+            <Button size="lg" className="group">
+              View All Products
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

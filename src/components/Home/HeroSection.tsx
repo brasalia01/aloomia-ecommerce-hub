@@ -2,18 +2,27 @@ import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import heroBanner from '@/assets/hero-banner.jpg';
+import heroVideoBg from '@/assets/hero-video-bg.jpg';
 
 export const HeroSection = () => {
   return (
     <section className="relative min-h-[80vh] lg:min-h-[90vh] flex items-center overflow-hidden">
-      {/* Background Image */}
+      {/* Animated Background */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={heroBanner}
-          alt="Aloomia Hero"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-transparent" />
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroVideoBg}
+            alt="Aloomia Animated Background"
+            className="w-full h-full object-cover animate-[float_20s_ease-in-out_infinite] opacity-60"
+          />
+          <img
+            src={heroBanner}
+            alt="Aloomia Hero Overlay"
+            className="absolute inset-0 w-full h-full object-cover animate-[pulse_15s_ease-in-out_infinite] opacity-40"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/30" />
       </div>
 
       {/* Content */}
@@ -56,7 +65,7 @@ export const HeroSection = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-white/30 text-slate-800 hover:bg-white/10 hover:text-white backdrop-blur-sm transition-colors"
+                className="border-white/30 text-blue-900 hover:bg-white/10 hover:text-white backdrop-blur-sm transition-colors"
               >
                 Explore Collection
               </Button>

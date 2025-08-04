@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import { AuthModal } from '@/components/Auth/AuthModal';
 import {
   DropdownMenu,
@@ -15,16 +16,21 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface HeaderProps {
-  cartItemCount?: number;
-}
-
-export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
+export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { favorites } = useFavorites();
   const { user, signOut, loading } = useAuth();
+  const { getTotalItems } = useCart();
   const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const navigationItems = [
     { name: 'Home', href: '/' },
@@ -63,14 +69,16 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
 
           {/* Search Bar - Desktop */}
           <div className="hidden lg:flex items-center flex-1 max-w-sm mx-8">
-            <div className="relative w-full">
+            <form onSubmit={handleSearch} className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 type="search"
                 placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
               />
-            </div>
+            </form>
           </div>
 
           {/* Actions */}
@@ -85,12 +93,12 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               <Search className="w-5 h-5" />
             </Button>
 
-            {/* Wishlist */}
+            {/* Favorites */}
             <Button 
               variant="ghost" 
               size="icon" 
               className="hidden lg:flex relative"
-              onClick={() => navigate('/profile')}
+              onClick={() => navigate('/profile?tab=favorites')}
             >
               <Heart className="w-5 h-5" />
               {favorites.length > 0 && (
@@ -100,7 +108,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               )}
             </Button>
 
-            {/* Account */}
+            {/* Profile */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -136,9 +144,9 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               onClick={() => navigate('/cart')}
             >
               <ShoppingCart className="w-5 h-5" />
-              {cartItemCount > 0 && (
+              {getTotalItems() > 0 && (
                 <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
-                  {cartItemCount}
+                  {getTotalItems()}
                 </Badge>
               )}
             </Button>
@@ -158,14 +166,16 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
         {/* Mobile Search */}
         {isSearchOpen && (
           <div className="lg:hidden py-4 border-t border-border animate-slide-up">
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 type="search"
                 placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
               />
-            </div>
+            </form>
           </div>
         )}
 
@@ -188,10 +198,10 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                   variant="ghost" 
                   size="sm" 
                   className="flex items-center space-x-2"
-                  onClick={() => navigate('/profile')}
+                  onClick={() => navigate('/profile?tab=favorites')}
                 >
                   <Heart className="w-4 h-4" />
-                  <span>Wishlist ({favorites.length})</span>
+                  <span>Favorites ({favorites.length})</span>
                 </Button>
                 {user ? (
                     <Button 

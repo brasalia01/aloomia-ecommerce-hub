@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Filter, Grid, List, Search, SlidersHorizontal } from 'lucide-react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { BackButton } from '@/components/ui/back-button';
 import { ProductCard, Product } from '@/components/Products/ProductCard';
+import { useCart } from '@/contexts/CartContext';
+import { useFavorites } from '@/hooks/useFavorites';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -21,7 +24,19 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [cart, setCart] = useState<Product[]>([]);
+  
+  const { addToCart } = useCart();
+  const { toggleFavorite } = useFavorites();
+  const location = useLocation();
+
+  // Check for search parameter from header search
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const searchParam = params.get('search');
+    if (searchParam) {
+      setSearchQuery(searchParam);
+    }
+  }, [location]);
 
   // Mock products data
   const allProducts: Product[] = [
@@ -116,13 +131,11 @@ const Products = () => {
   });
 
   const handleAddToCart = (product: Product) => {
-    setCart(prev => [...prev, product]);
-    // Show toast or notification
-    console.log('Added to cart:', product.name);
+    addToCart(product);
   };
 
   const handleToggleWishlist = (product: Product) => {
-    console.log('Toggle wishlist:', product.name);
+    toggleFavorite(product);
   };
 
   const handleQuickView = (product: Product) => {
@@ -163,8 +176,8 @@ const Products = () => {
             className="w-full"
           />
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>${priceRange[0]}</span>
-            <span>${priceRange[1]}</span>
+            <span>GH₵ {priceRange[0]}</span>
+            <span>GH₵ {priceRange[1]}</span>
           </div>
         </div>
       </div>
@@ -186,7 +199,7 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header cartItemCount={cart.length} />
+      <Header />
       
       <main className="container mx-auto px-4 lg:px-8 py-8">
         {/* Page Header */}

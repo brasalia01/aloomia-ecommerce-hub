@@ -1,4 +1,4 @@
-import { Smartphone, Headphones, Watch, ShoppingBag, Home, Gamepad2 } from 'lucide-react';
+import { Smartphone, Headphones, Watch, ShoppingBag, Home, Gamepad2, Shirt } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -55,6 +55,13 @@ export const Categories = () => {
       itemCount: 78,
       color: 'bg-red-500/10 text-red-600 dark:text-red-400',
     },
+    {
+      id: '7',
+      name: 'Jerseys',
+      icon: Shirt,
+      itemCount: 145,
+      color: 'bg-teal-500/10 text-teal-600 dark:text-teal-400',
+    },
   ];
 
   return (
@@ -71,7 +78,7 @@ export const Categories = () => {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 lg:gap-6">
           {categories.map((category, index) => (
             <Link key={category.id} to="/categories">
               <Card
