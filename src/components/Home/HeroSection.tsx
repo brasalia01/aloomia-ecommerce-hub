@@ -3,26 +3,27 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import heroBanner from '@/assets/hero-banner.jpg';
 import heroVideoBg from '@/assets/hero-video-bg.jpg';
+import cosmeticsVideoBg from '@/assets/cosmetics-video-bg.jpg';
 
 export const HeroSection = () => {
   return (
     <section className="relative min-h-[80vh] lg:min-h-[90vh] flex items-center overflow-hidden">
-      {/* Animated Background */}
+      {/* Animated Video Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src={heroVideoBg}
-            alt="Aloomia Animated Background"
-            className="w-full h-full object-cover animate-[float_20s_ease-in-out_infinite] opacity-60"
+            src={cosmeticsVideoBg}
+            alt="Aloomia Cosmetics Animation"
+            className="w-full h-full object-cover animate-[float_20s_ease-in-out_infinite,rotate_30s_linear_infinite] opacity-70"
           />
           <img
             src={heroBanner}
             alt="Aloomia Hero Overlay"
-            className="absolute inset-0 w-full h-full object-cover animate-[pulse_15s_ease-in-out_infinite] opacity-40"
+            className="absolute inset-0 w-full h-full object-cover animate-[pulse_15s_ease-in-out_infinite,scale_25s_ease-in-out_infinite] opacity-30"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/60 to-primary/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20" />
       </div>
 
       {/* Content */}

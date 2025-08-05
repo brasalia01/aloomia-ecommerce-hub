@@ -16,21 +16,21 @@ export const Testimonials = () => {
   const testimonials: Testimonial[] = [
     {
       id: '1',
-      name: 'Sarah Johnson',
+      name: 'Antoinette Sey',
       role: 'Verified Customer',
       content: 'Amazing quality and fast delivery! The products exceeded my expectations. Aloomia has become my go-to store for premium items.',
       rating: 5,
     },
     {
       id: '2',
-      name: 'Michael Chen',
+      name: 'Bra Salia',
       role: 'Regular Customer',
       content: 'Excellent customer service and authentic products. The shopping experience is smooth and the packaging is always perfect.',
       rating: 5,
     },
     {
       id: '3',
-      name: 'Emily Rodriguez',
+      name: 'Akosuah Ilem',
       role: 'Fashion Enthusiast',
       content: 'Love the variety and quality of products. The prices are reasonable and the style selections are always on-trend.',
       rating: 5,
