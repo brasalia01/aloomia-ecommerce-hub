@@ -8,22 +8,31 @@ import cosmeticsVideoBg from '@/assets/cosmetics-video-bg.jpg';
 export const HeroSection = () => {
   return (
     <section className="relative min-h-[80vh] lg:min-h-[90vh] flex items-center overflow-hidden">
-      {/* Animated Video Background */}
+      {/* Video-like Animated Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 overflow-hidden">
+          {/* Primary animated cosmetics background */}
           <img
             src={cosmeticsVideoBg}
             alt="Aloomia Cosmetics Animation"
-            className="w-full h-full object-cover animate-[float_20s_ease-in-out_infinite,rotate_30s_linear_infinite] opacity-70"
+            className="w-full h-full object-cover animate-[float_8s_ease-in-out_infinite,rotate_20s_linear_infinite,scale_15s_ease-in-out_infinite] opacity-80"
           />
+          {/* Secondary overlay with different animation timing */}
           <img
             src={heroBanner}
             alt="Aloomia Hero Overlay"
-            className="absolute inset-0 w-full h-full object-cover animate-[pulse_15s_ease-in-out_infinite,scale_25s_ease-in-out_infinite] opacity-30"
+            className="absolute inset-0 w-full h-full object-cover animate-[pulse_12s_ease-in-out_infinite,scale_18s_ease-in-out_infinite_reverse] opacity-20 mix-blend-overlay"
+          />
+          {/* Third layer for depth */}
+          <img
+            src={cosmeticsVideoBg}
+            alt="Aloomia Background Layer"
+            className="absolute inset-0 w-full h-full object-cover animate-[rotate_25s_linear_infinite_reverse,float_10s_ease-in-out_infinite] opacity-30 scale-110"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/60 to-primary/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/30" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
