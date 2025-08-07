@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { QuickViewModal } from '@/components/Products/QuickViewModal';
 import { cn } from '@/lib/utils';
 
 export interface Product {
@@ -36,21 +38,27 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [showQuickView, setShowQuickView] = useState(false);
 
   const discountPercentage = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
   return (
-    <Card
-      className={cn(
-        "group relative overflow-hidden border-border hover:shadow-large transition-all duration-300",
-        "hover:-translate-y-1 bg-gradient-card",
-        className
-      )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <>
+      <motion.div
+        whileHover={{ y: -4, scale: 1.02 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Card
+          className={cn(
+            "group relative overflow-hidden border-border hover:shadow-xl transition-all duration-300",
+            "bg-gradient-card cursor-pointer",
+            className
+          )}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
         {product.isNew && (
@@ -87,7 +95,7 @@ export const ProductCard = ({
           variant="secondary"
           size="icon"
           className="h-9 w-9 bg-background/90 hover:bg-background shadow-md"
-          onClick={() => onQuickView?.(product)}
+          onClick={() => setShowQuickView(true)}
         >
           <Eye className="w-4 h-4" />
         </Button>
@@ -169,6 +177,14 @@ export const ProductCard = ({
           )}
         </div>
       </CardContent>
-    </Card>
+        </Card>
+      </motion.div>
+      
+      <QuickViewModal
+        product={product}
+        isOpen={showQuickView}
+        onClose={() => setShowQuickView(false)}
+      />
+    </>
   );
 };

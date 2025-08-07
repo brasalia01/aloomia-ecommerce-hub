@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Search, ShoppingCart, Menu, X, User, Heart, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { AuthModal } from '@/components/Auth/AuthModal';
+import { CartDrawer } from '@/components/Cart/CartDrawer';
+import { SearchAutocomplete } from '@/components/Search/SearchAutocomplete';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,17 +21,15 @@ import {
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const { favorites } = useFavorites();
   const { user, signOut, loading } = useAuth();
   const { getTotalItems } = useCart();
   const navigate = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
+  const handleSearch = (query: string) => {
+    navigate(`/products?search=${encodeURIComponent(query)}`);
+    setIsSearchOpen(false);
   };
 
   const navigationItems = [
@@ -69,16 +69,11 @@ export const Header = () => {
 
           {/* Search Bar - Desktop */}
           <div className="hidden lg:flex items-center flex-1 max-w-sm mx-8">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
-              />
-            </form>
+            <SearchAutocomplete
+              placeholder="Search products..."
+              onSearch={handleSearch}
+              className="w-full"
+            />
           </div>
 
           {/* Actions */}
@@ -137,19 +132,27 @@ export const Header = () => {
             )}
 
             {/* Cart */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="relative"
-              onClick={() => navigate('/cart')}
-            >
-              <ShoppingCart className="w-5 h-5" />
-              {getTotalItems() > 0 && (
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
-                  {getTotalItems()}
-                </Badge>
-              )}
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {getTotalItems() > 0 && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-2 -right-2"
+                  >
+                    <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
+                      {getTotalItems()}
+                    </Badge>
+                  </motion.div>
+                )}
+              </Button>
+            </motion.div>
 
             {/* Mobile Menu Toggle */}
             <Button
@@ -165,33 +168,44 @@ export const Header = () => {
 
         {/* Mobile Search */}
         {isSearchOpen && (
-          <div className="lg:hidden py-4 border-t border-border animate-slide-up">
-            <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
-              />
-            </form>
-          </div>
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden py-4 border-t border-border overflow-hidden"
+          >
+            <SearchAutocomplete
+              placeholder="Search products..."
+              onSearch={handleSearch}
+              className="w-full"
+            />
+          </motion.div>
         )}
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border animate-slide-up">
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden py-4 border-t border-border overflow-hidden"
+          >
             <nav className="flex flex-col space-y-4">
-              {navigationItems.map((item) => (
-                <Link
+              {navigationItems.map((item, index) => (
+                <motion.div
                   key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {item.name}
-                </Link>
+                  <Link
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer block"
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
               ))}
               <div className="flex items-center space-x-4 pt-4 border-t border-border">
                 <Button 
@@ -227,9 +241,12 @@ export const Header = () => {
                 )}
               </div>
             </nav>
-          </div>
+          </motion.div>
         )}
       </div>
+      
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 };
