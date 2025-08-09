@@ -14,16 +14,554 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          name: string
+          parent_id: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name: string
+          parent_id?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string
+          parent_id?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          attachments: string[] | null
+          chat_id: string
+          created_at: string
+          id: string
+          message: string
+          metadata: Json | null
+          read_by_admin: boolean | null
+          sender: Database["public"]["Enums"]["chat_sender"]
+          sender_id: string | null
+        }
+        Insert: {
+          attachments?: string[] | null
+          chat_id: string
+          created_at?: string
+          id?: string
+          message: string
+          metadata?: Json | null
+          read_by_admin?: boolean | null
+          sender: Database["public"]["Enums"]["chat_sender"]
+          sender_id?: string | null
+        }
+        Update: {
+          attachments?: string[] | null
+          chat_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          metadata?: Json | null
+          read_by_admin?: boolean | null
+          sender?: Database["public"]["Enums"]["chat_sender"]
+          sender_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chats: {
+        Row: {
+          assigned_admin_id: string | null
+          guest_email: string | null
+          id: string
+          is_open: boolean | null
+          last_message_at: string | null
+          metadata: Json | null
+          started_at: string
+          user_id: string | null
+        }
+        Insert: {
+          assigned_admin_id?: string | null
+          guest_email?: string | null
+          id?: string
+          is_open?: boolean | null
+          last_message_at?: string | null
+          metadata?: Json | null
+          started_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          assigned_admin_id?: string | null
+          guest_email?: string | null
+          id?: string
+          is_open?: boolean | null
+          last_message_at?: string | null
+          metadata?: Json | null
+          started_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+          variant_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+          variant_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          billing_address: Json | null
+          currency: string
+          id: string
+          order_notes: string | null
+          placed_at: string
+          shipping_address: Json | null
+          status: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          billing_address?: Json | null
+          currency?: string
+          id?: string
+          order_notes?: string | null
+          placed_at?: string
+          shipping_address?: Json | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          billing_address?: Json | null
+          currency?: string
+          id?: string
+          order_notes?: string | null
+          placed_at?: string
+          shipping_address?: Json | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          confirmed_at: string | null
+          created_at: string
+          currency: string
+          id: string
+          metadata: Json | null
+          order_id: string
+          payment_method: string | null
+          provider: Database["public"]["Enums"]["payment_provider"]
+          provider_txn_id: string | null
+          receipt_url: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          metadata?: Json | null
+          order_id: string
+          payment_method?: string | null
+          provider: Database["public"]["Enums"]["payment_provider"]
+          provider_txn_id?: string | null
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          confirmed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          metadata?: Json | null
+          order_id?: string
+          payment_method?: string | null
+          provider?: Database["public"]["Enums"]["payment_provider"]
+          provider_txn_id?: string | null
+          receipt_url?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          created_at: string
+          id: string
+          inventory_count: number | null
+          is_active: boolean | null
+          options: Json
+          price: number | null
+          product_id: string
+          updated_at: string
+          variant_sku: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inventory_count?: number | null
+          is_active?: boolean | null
+          options?: Json
+          price?: number | null
+          product_id: string
+          updated_at?: string
+          variant_sku: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inventory_count?: number | null
+          is_active?: boolean | null
+          options?: Json
+          price?: number | null
+          product_id?: string
+          updated_at?: string
+          variant_sku?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          currency: string
+          description: string | null
+          featured: boolean | null
+          id: string
+          images: string[] | null
+          inventory_count: number | null
+          is_active: boolean | null
+          low_stock_threshold: number | null
+          price: number
+          sku: string
+          slug: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          images?: string[] | null
+          inventory_count?: number | null
+          is_active?: boolean | null
+          low_stock_threshold?: number | null
+          price: number
+          sku: string
+          slug: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          images?: string[] | null
+          inventory_count?: number | null
+          is_active?: boolean | null
+          low_stock_threshold?: number | null
+          price?: number
+          sku?: string
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          is_active: boolean | null
+          profile_meta: Json | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          is_active?: boolean | null
+          profile_meta?: Json | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          is_active?: boolean | null
+          profile_meta?: Json | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          is_approved: boolean | null
+          is_verified: boolean | null
+          product_id: string
+          rating: number
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_approved?: boolean | null
+          is_verified?: boolean | null
+          product_id: string
+          rating: number
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          is_approved?: boolean | null
+          is_verified?: boolean | null
+          product_id?: string
+          rating?: number
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { user_id: string }
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
     }
     Enums: {
-      [_ in never]: never
+      chat_sender: "user" | "admin" | "bot"
+      order_status:
+        | "pending"
+        | "processing"
+        | "shipped"
+        | "delivered"
+        | "payment_failed"
+        | "cancelled"
+        | "refunded"
+      payment_provider: "stripe" | "paystack" | "flutterwave"
+      payment_status:
+        | "pending"
+        | "processing"
+        | "completed"
+        | "failed"
+        | "cancelled"
+        | "refunded"
+      user_role: "customer" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +688,27 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      chat_sender: ["user", "admin", "bot"],
+      order_status: [
+        "pending",
+        "processing",
+        "shipped",
+        "delivered",
+        "payment_failed",
+        "cancelled",
+        "refunded",
+      ],
+      payment_provider: ["stripe", "paystack", "flutterwave"],
+      payment_status: [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "cancelled",
+        "refunded",
+      ],
+      user_role: ["customer", "admin"],
+    },
   },
 } as const
