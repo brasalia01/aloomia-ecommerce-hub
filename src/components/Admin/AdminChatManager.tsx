@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -98,7 +99,7 @@ const AdminChatManager: React.FC<AdminChatManagerProps> = ({ onStatsUpdate }) =>
         .from('chats')
         .select(`
           *,
-          profiles (
+          profiles!chats_user_id_fkey (
             full_name,
             email
           )
@@ -107,7 +108,7 @@ const AdminChatManager: React.FC<AdminChatManagerProps> = ({ onStatsUpdate }) =>
         .order('started_at', { ascending: false });
 
       if (error) throw error;
-      setChats(data || []);
+      setChats((data as any) || []);
     } catch (error) {
       console.error('Error loading chats:', error);
       toast({

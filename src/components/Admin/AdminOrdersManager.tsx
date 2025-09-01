@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -66,7 +67,7 @@ const AdminOrdersManager: React.FC<AdminOrdersManagerProps> = ({ onStatsUpdate }
         .from('orders')
         .select(`
           *,
-          profiles (
+          profiles!orders_user_id_fkey (
             full_name,
             email
           ),
@@ -84,7 +85,7 @@ const AdminOrdersManager: React.FC<AdminOrdersManagerProps> = ({ onStatsUpdate }
         .order('placed_at', { ascending: false });
 
       if (error) throw error;
-      setOrders(data || []);
+      setOrders((data as any) || []);
     } catch (error) {
       console.error('Error loading orders:', error);
       toast({
@@ -97,7 +98,7 @@ const AdminOrdersManager: React.FC<AdminOrdersManagerProps> = ({ onStatsUpdate }
     }
   };
 
-  const updateOrderStatus = async (orderId: string, newStatus: 'pending' | 'processing' | 'shipped' | 'delivered' | 'payment_failed' | 'cancelled' | 'refunded') => {
+  const updateOrderStatus = async (orderId: string, newStatus: Database['public']['Enums']['order_status']) => {
     try {
       const { error } = await supabase
         .from('orders')
@@ -242,7 +243,7 @@ const AdminOrdersManager: React.FC<AdminOrdersManagerProps> = ({ onStatsUpdate }
                   <div className="flex items-center space-x-2 ml-4">
                     <Select
                       value={order.status}
-                      onValueChange={(value) => updateOrderStatus(order.id, value)}
+                      onValueChange={(value) => updateOrderStatus(order.id, value as Database['public']['Enums']['order_status'])}
                     >
                       <SelectTrigger className="w-40">
                         <SelectValue />
