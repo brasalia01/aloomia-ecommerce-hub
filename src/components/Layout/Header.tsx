@@ -23,7 +23,7 @@ export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { favorites } = useFavorites();
-  const { user, signOut, loading } = useAuth();
+  const { user, userProfile, signOut, loading } = useAuth();
   const { getTotalItems } = useCart();
   const navigate = useNavigate();
 
@@ -116,6 +116,12 @@ export const Header = () => {
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
+                  {userProfile?.role === 'admin' && (
+                    <DropdownMenuItem onClick={() => navigate('/admin')}>
+                      <User className="w-4 h-4 mr-2" />
+                      Admin Dashboard
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut}>
                     <LogOut className="w-4 h-4 mr-2" />

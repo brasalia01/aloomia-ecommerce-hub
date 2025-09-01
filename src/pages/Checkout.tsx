@@ -29,10 +29,47 @@ export default function Checkout() {
   const deliveryFee = 25.00;
   const total = subtotal + deliveryFee;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Process payment with Flutterwave/Paystack
-    alert('Payment processing would happen here. Connect to Supabase to implement actual payment processing.');
+    
+    try {
+      // Create order first
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user?.id,
+          total_amount: total,
+          currency: 'GHS',
+          status: 'pending',
+          shipping_address: {
+            full_name: formData.fullName,
+            address: formData.address,
+            phone: formData.phone,
+            notes: formData.notes
+          }
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Process Mobile Money payment
+      const { data: paymentData, error: paymentError } = await supabase.functions.invoke('mobile-money-payment', {
+        body: {
+          orderId: orderData.id,
+          amount: total,
+          phone: formData.phone,
+          provider: 'mtn_momo'
+        }
+      });
+
+      if (paymentError) throw paymentError;
+
+      alert(`Payment initiated! ${paymentData.instructions.message}\n\nSteps:\n${paymentData.instructions.steps.join('\n')}`);
+      navigate('/profile?tab=orders');
+    } catch (error: any) {
+      alert(`Error: ${error.message}`);
+    }
   };
 
   return (
