@@ -194,6 +194,47 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          metadata: Json | null
+          title: string
+          type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          metadata?: Json | null
+          title: string
+          type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          metadata?: Json | null
+          title?: string
+          type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
@@ -255,6 +296,9 @@ export type Database = {
           currency: string
           id: string
           order_notes: string | null
+          payment_metadata: Json | null
+          payment_provider: string | null
+          payment_reference: string | null
           placed_at: string
           shipping_address: Json | null
           status: Database["public"]["Enums"]["order_status"]
@@ -267,6 +311,9 @@ export type Database = {
           currency?: string
           id?: string
           order_notes?: string | null
+          payment_metadata?: Json | null
+          payment_provider?: string | null
+          payment_reference?: string | null
           placed_at?: string
           shipping_address?: Json | null
           status?: Database["public"]["Enums"]["order_status"]
@@ -279,12 +326,51 @@ export type Database = {
           currency?: string
           id?: string
           order_notes?: string | null
+          payment_metadata?: Json | null
+          payment_provider?: string | null
+          payment_reference?: string | null
           placed_at?: string
           shipping_address?: Json | null
           status?: Database["public"]["Enums"]["order_status"]
           total_amount?: number
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      payment_receivers: {
+        Row: {
+          account_name: string
+          created_at: string | null
+          full_number: string
+          id: string
+          is_active: boolean | null
+          masked_number: string
+          metadata: Json | null
+          provider: string
+          updated_at: string | null
+        }
+        Insert: {
+          account_name: string
+          created_at?: string | null
+          full_number: string
+          id?: string
+          is_active?: boolean | null
+          masked_number: string
+          metadata?: Json | null
+          provider: string
+          updated_at?: string | null
+        }
+        Update: {
+          account_name?: string
+          created_at?: string | null
+          full_number?: string
+          id?: string
+          is_active?: boolean | null
+          masked_number?: string
+          metadata?: Json | null
+          provider?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -542,6 +628,15 @@ export type Database = {
         Args: { user_id: string }
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      send_notification: {
+        Args: {
+          notification_message: string
+          notification_title: string
+          notification_type?: string
+          target_user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       chat_sender: "user" | "admin" | "bot"
@@ -553,6 +648,7 @@ export type Database = {
         | "payment_failed"
         | "cancelled"
         | "refunded"
+        | "payment_pending"
       payment_provider: "stripe" | "paystack" | "flutterwave"
       payment_status:
         | "pending"
@@ -698,6 +794,7 @@ export const Constants = {
         "payment_failed",
         "cancelled",
         "refunded",
+        "payment_pending",
       ],
       payment_provider: ["stripe", "paystack", "flutterwave"],
       payment_status: [
