@@ -546,6 +546,7 @@ export type Database = {
           full_name: string | null
           id: string
           is_active: boolean | null
+          phone: string | null
           profile_meta: Json | null
           role: Database["public"]["Enums"]["user_role"]
           updated_at: string
@@ -556,6 +557,7 @@ export type Database = {
           full_name?: string | null
           id: string
           is_active?: boolean | null
+          phone?: string | null
           profile_meta?: Json | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string
@@ -566,6 +568,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_active?: boolean | null
+          phone?: string | null
           profile_meta?: Json | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string

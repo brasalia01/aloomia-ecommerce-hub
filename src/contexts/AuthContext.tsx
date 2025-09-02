@@ -12,7 +12,9 @@ interface AuthContextType {
   signUpWithPhone: (phone: string, password: string, fullName: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signInWithPhone: (phone: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   verifyOTP: (phone: string, token: string) => Promise<void>;
+  resendOTP: (phone: string) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   changePassword: (newPassword: string) => Promise<void>;
@@ -197,6 +199,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: redirectUrl,
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Redirecting to Google",
+        description: "Please complete the sign in process with Google.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
   const verifyOTP = async (phone: string, token: string) => {
     try {
       const { error } = await supabase.auth.verifyOtp({
@@ -212,9 +240,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         description: "You have successfully verified your phone number.",
       });
     } catch (error: any) {
+      let errorMessage = error.message;
+      
+      if (error.message?.includes('invalid') || error.message?.includes('expired')) {
+        errorMessage = "Invalid or expired verification code. Please try again.";
+      } else if (error.message?.includes('too_many_requests')) {
+        errorMessage = "Too many attempts. Please wait a few minutes before trying again.";
+      }
+
+      toast({
+        title: "Verification failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
+  const resendOTP = async (phone: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        phone,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Code sent!",
+        description: "A new verification code has been sent to your phone.",
+      });
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Failed to send verification code. Please try again.",
         variant: "destructive",
       });
       throw error;
@@ -296,7 +354,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUpWithPhone,
     signIn,
     signInWithPhone,
+    signInWithGoogle,
     verifyOTP,
+    resendOTP,
     signOut,
     resetPassword,
     changePassword,
