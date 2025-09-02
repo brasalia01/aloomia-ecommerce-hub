@@ -8,9 +8,12 @@ import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, CreditCard, Smartphone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/components/ui/back-button';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Checkout() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
