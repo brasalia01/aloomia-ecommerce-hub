@@ -81,23 +81,25 @@ export const ProductCard = ({
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 bg-background/90 hover:bg-background shadow-md"
+          className="h-9 w-9 bg-background/95 hover:bg-background shadow-lg border border-border/50"
           onClick={() => onToggleWishlist?.(product)}
+          title="Add to Wishlist"
         >
           <Heart
             className={cn(
               "w-4 h-4 transition-colors",
-              product.isWishlisted ? "fill-destructive text-destructive" : ""
+              product.isWishlisted ? "fill-destructive text-destructive" : "text-muted-foreground hover:text-destructive"
             )}
           />
         </Button>
         <Button
           variant="secondary"
           size="icon"
-          className="h-9 w-9 bg-background/90 hover:bg-background shadow-md"
+          className="h-9 w-9 bg-background/95 hover:bg-background shadow-lg border border-border/50"
           onClick={() => setShowQuickView(true)}
+          title="Quick View"
         >
-          <Eye className="w-4 h-4" />
+          <Eye className="w-4 h-4 text-muted-foreground hover:text-primary" />
         </Button>
       </div>
 

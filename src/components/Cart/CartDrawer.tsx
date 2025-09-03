@@ -38,7 +38,7 @@ export const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-background shadow-xl z-50 flex flex-col"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-background/95 backdrop-blur-md shadow-xl z-50 flex flex-col border-l"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
@@ -191,7 +191,7 @@ export const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                       <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
-                  <Link to="/cart" onClick={onClose}>
+                  <Link to="/cart" onClick={() => { onClose(); window.scrollTo(0, 0); }}>
                     <Button variant="outline" size="lg" className="w-full">
                       View Cart
                     </Button>
