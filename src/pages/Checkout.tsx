@@ -10,10 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@/components/ui/back-button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { cartItems, getTotalPrice } = useCart();
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -22,14 +24,8 @@ export default function Checkout() {
     paymentMethod: 'momo'
   });
 
-  // Mock cart items - in real app this would come from context/state
-  const cartItems = [
-    { id: 1, name: 'Premium Wireless Headphones', price: 299.99, quantity: 1 },
-    { id: 2, name: 'Smart Watch Pro', price: 399.99, quantity: 1 }
-  ];
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const deliveryFee = 25.00;
+  const subtotal = getTotalPrice();
+  const deliveryFee = subtotal > 0 ? 0 : 0; // No delivery fee as requested
   const total = subtotal + deliveryFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -193,7 +189,7 @@ export default function Checkout() {
                 <CardTitle>Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {cartItems.map((item) => (
+                {cartItems.length > 0 ? cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <div>
                       <p className="font-medium">{item.name}</p>
@@ -201,7 +197,9 @@ export default function Checkout() {
                     </div>
                     <p className="font-medium">GH₵ {(item.price * item.quantity).toFixed(2)}</p>
                   </div>
-                ))}
+                )) : (
+                  <p className="text-muted-foreground">No items in cart</p>
+                )}
                 
                 <Separator />
                 
@@ -210,10 +208,12 @@ export default function Checkout() {
                     <p>Subtotal</p>
                     <p>GH₵ {subtotal.toFixed(2)}</p>
                   </div>
-                  <div className="flex justify-between">
-                    <p>Delivery Fee</p>
-                    <p>GH₵ {deliveryFee.toFixed(2)}</p>
-                  </div>
+                  {deliveryFee > 0 && (
+                    <div className="flex justify-between">
+                      <p>Delivery Fee</p>
+                      <p>GH₵ {deliveryFee.toFixed(2)}</p>
+                    </div>
+                  )}
                   <Separator />
                   <div className="flex justify-between font-semibold text-lg">
                     <p>Total</p>
