@@ -143,7 +143,10 @@ export const ProductCard = ({
         </p>
 
         {/* Product Name */}
-        <h3 className="font-medium text-foreground mb-2 line-clamp-2 leading-tight">
+        <h3 
+          className="font-medium text-foreground mb-2 line-clamp-2 leading-tight cursor-pointer hover:text-primary transition-colors"
+          onClick={() => window.location.href = `/product/${product.id}`}
+        >
           {product.name}
         </h3>
 
