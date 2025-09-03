@@ -13,10 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
-import productWatch from '@/assets/product-watch.jpg';
-import productHeadphones from '@/assets/product-headphones.jpg';
-import productPhone from '@/assets/product-phone.jpg';
-import productBag from '@/assets/product-bag.jpg';
+import { allProducts } from '@/data/products';
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,77 +35,12 @@ const Products = () => {
     }
   }, [location]);
 
-  // Mock products data
-  const allProducts: Product[] = [
-    {
-      id: '1',
-      name: 'Premium Luxury Watch',
-      price: 299.99,
-      originalPrice: 399.99,
-      image: productWatch,
-      rating: 4.8,
-      reviewCount: 124,
-      category: 'Accessories',
-      isSale: true,
-    },
-    {
-      id: '2',
-      name: 'Wireless Pro Headphones',
-      price: 199.99,
-      image: productHeadphones,
-      rating: 4.9,
-      reviewCount: 89,
-      category: 'Electronics',
-      isNew: true,
-    },
-    {
-      id: '3',
-      name: 'Smartphone Pro Max',
-      price: 899.99,
-      originalPrice: 999.99,
-      image: productPhone,
-      rating: 4.7,
-      reviewCount: 256,
-      category: 'Electronics',
-      isSale: true,
-    },
-    {
-      id: '4',
-      name: 'Premium Leather Bag',
-      price: 149.99,
-      image: productBag,
-      rating: 4.6,
-      reviewCount: 67,
-      category: 'Fashion',
-      isNew: true,
-    },
-    // Add more products for demonstration
-    {
-      id: '5',
-      name: 'Gaming Keyboard',
-      price: 129.99,
-      image: productHeadphones,
-      rating: 4.5,
-      reviewCount: 45,
-      category: 'Gaming',
-    },
-    {
-      id: '6',
-      name: 'Fitness Tracker',
-      price: 79.99,
-      originalPrice: 99.99,
-      image: productWatch,
-      rating: 4.4,
-      reviewCount: 123,
-      category: 'Health',
-      isSale: true,
-    },
-  ];
+  // Use products from shared data
+  const products = allProducts;
 
-  const categories = ['all', 'Electronics', 'Fashion', 'Accessories', 'Gaming', 'Health'];
+  const categories = ['all', 'Electronics', 'Fashion', 'Accessories', 'Food & Snacks', 'Subscriptions', 'Gift Cards', 'Services'];
 
-  // Filter and sort products
-  const filteredProducts = allProducts.filter(product => {
+  const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
@@ -308,7 +240,7 @@ const Products = () => {
           {/* Products Grid */}
           <div className="flex-1">
             <div className="mb-4 text-sm text-muted-foreground">
-              Showing {sortedProducts.length} of {allProducts.length} products
+              Showing {sortedProducts.length} of {products.length} products
             </div>
 
             {sortedProducts.length === 0 ? (

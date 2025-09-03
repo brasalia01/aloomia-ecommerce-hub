@@ -10,47 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
-import { ProductCard, Product } from '@/components/Products/ProductCard';
+import { ProductCard } from '@/components/Products/ProductCard';
 import { useCart } from '@/contexts/CartContext';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-
-// Mock product data - in a real app, this would come from an API
-const mockProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Premium Wireless Headphones',
-    price: 299.99,
-    originalPrice: 399.99,
-    image: '/src/assets/product-headphones.jpg',
-    rating: 4.8,
-    reviewCount: 156,
-    category: 'Electronics',
-    isNew: true,
-    isSale: true,
-  },
-  {
-    id: '2',
-    name: 'Smart Watch Series X',
-    price: 449.99,
-    image: '/src/assets/product-watch.jpg',
-    rating: 4.9,
-    reviewCount: 203,
-    category: 'Electronics',
-    isNew: true,
-  },
-  // Add more mock products...
-];
-
-interface ProductVariant {
-  id: string;
-  color: string;
-  colorHex: string;
-  sizes: string[];
-  stock: { [size: string]: number };
-  images: string[];
-}
+import { getProductDetails, getSimilarProducts, DetailedProduct, ProductVariant } from '@/data/products';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -62,77 +27,51 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
-
-  // Mock product detail data
-  const [product] = useState<Product & {
-    description: string;
-    features: string[];
-    variants: ProductVariant[];
-    inStock: boolean;
-    totalStock: number;
-  }>({
-    id: id || '1',
-    name: 'Premium Wireless Headphones',
-    price: 299.99,
-    originalPrice: 399.99,
-    image: '/src/assets/product-headphones.jpg',
-    rating: 4.8,
-    reviewCount: 156,
-    category: 'Electronics',
-    isNew: true,
-    isSale: true,
-    description: 'Experience unparalleled audio quality with our Premium Wireless Headphones. Featuring advanced noise cancellation technology, premium materials, and exceptional comfort for extended listening sessions. Perfect for music lovers, professionals, and anyone who demands the best in audio performance.',
-    features: [
-      'Active Noise Cancellation with advanced algorithms',
-      '40-hour battery life with quick charge',
-      'Premium leather and memory foam padding',
-      'High-resolution audio with custom drivers',
-      'Bluetooth 5.3 with multi-device connectivity',
-      'Touch controls with voice assistant support'
-    ],
-    variants: [
-      {
-        id: 'black',
-        color: 'Midnight Black',
-        colorHex: '#1a1a1a',
-        sizes: ['Small', 'Medium', 'Large'],
-        stock: { 'Small': 5, 'Medium': 12, 'Large': 8 },
-        images: ['/src/assets/product-headphones.jpg', '/src/assets/product-headphones.jpg']
-      },
-      {
-        id: 'white',
-        color: 'Pearl White',
-        colorHex: '#f8f9fa',
-        sizes: ['Small', 'Medium', 'Large'],
-        stock: { 'Small': 3, 'Medium': 7, 'Large': 4 },
-        images: ['/src/assets/product-headphones.jpg', '/src/assets/product-headphones.jpg']
-      },
-      {
-        id: 'blue',
-        color: 'Ocean Blue',
-        colorHex: '#2563eb',
-        sizes: ['Small', 'Medium', 'Large'],
-        stock: { 'Small': 0, 'Medium': 5, 'Large': 2 },
-        images: ['/src/assets/product-headphones.jpg', '/src/assets/product-headphones.jpg']
-      }
-    ],
-    inStock: true,
-    totalStock: 46
-  });
-
-  const selectedVariant = product.variants.find(v => v.id === selectedColor);
-  const currentStock = selectedVariant && selectedSize ? selectedVariant.stock[selectedSize] : 0;
-  const isOutOfStock = currentStock === 0;
+  const [product, setProduct] = useState<DetailedProduct | null>(null);
+  const [similarProducts, setSimilarProducts] = useState<any[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (product.variants.length > 0) {
-      setSelectedColor(product.variants[0].id);
-      if (product.variants[0].sizes.length > 0) {
-        setSelectedSize(product.variants[0].sizes[0]);
+    
+    if (!id) {
+      navigate('/products');
+      return;
+    }
+
+    const productDetails = getProductDetails(id);
+    if (!productDetails) {
+      navigate('/products');
+      return;
+    }
+
+    setProduct(productDetails);
+    setSimilarProducts(getSimilarProducts(id, productDetails.category));
+
+    // Set default selections
+    if (productDetails.variants.length > 0) {
+      setSelectedColor(productDetails.variants[0].id);
+      if (productDetails.variants[0].sizes.length > 0) {
+        setSelectedSize(productDetails.variants[0].sizes[0]);
       }
     }
-  }, [id, product.variants]);
+  }, [id, navigate]);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Product not found</h1>
+          <Button onClick={() => navigate('/products')}>
+            Back to Products
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const selectedVariant = product.variants.find(v => v.id === selectedColor);
+  const currentStock = selectedVariant && selectedSize ? selectedVariant.stock[selectedSize] : selectedVariant ? Object.values(selectedVariant.stock).reduce((sum, stock) => sum + stock, 0) : 0;
+  const isOutOfStock = currentStock === 0;
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
@@ -150,8 +89,6 @@ const ProductDetail = () => {
       description: `${quantity} x ${product.name} added to your cart.`,
     });
   };
-
-  const similarProducts = mockProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background">
@@ -257,31 +194,33 @@ const ProductDetail = () => {
             </div>
 
             {/* Color Selection */}
-            <div className="space-y-3">
-              <h3 className="font-medium">Color: {selectedVariant?.color}</h3>
-              <div className="flex gap-2">
-                {product.variants.map((variant) => (
-                  <button
-                    key={variant.id}
-                    onClick={() => {
-                      setSelectedColor(variant.id);
-                      setSelectedImageIndex(0);
-                      if (variant.sizes.length > 0) {
-                        setSelectedSize(variant.sizes[0]);
-                      }
-                    }}
-                    className={cn(
-                      "w-8 h-8 rounded-full border-2 transition-all",
-                      selectedColor === variant.id
-                        ? "border-primary scale-110"
-                        : "border-border hover:border-primary/50"
-                    )}
-                    style={{ backgroundColor: variant.colorHex }}
-                    title={variant.color}
-                  />
-                ))}
+            {selectedVariant && product.variants.length > 1 && (
+              <div className="space-y-3">
+                <h3 className="font-medium">Color: {selectedVariant?.color}</h3>
+                <div className="flex gap-2">
+                  {product.variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      onClick={() => {
+                        setSelectedColor(variant.id);
+                        setSelectedImageIndex(0);
+                        if (variant.sizes.length > 0) {
+                          setSelectedSize(variant.sizes[0]);
+                        }
+                      }}
+                      className={cn(
+                        "w-8 h-8 rounded-full border-2 transition-all",
+                        selectedColor === variant.id
+                          ? "border-primary scale-110"
+                          : "border-border hover:border-primary/50"
+                      )}
+                      style={{ backgroundColor: variant.colorHex }}
+                      title={variant.color}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Size Selection */}
             {selectedVariant && selectedVariant.sizes.length > 0 && (
