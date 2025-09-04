@@ -4,12 +4,12 @@ import productHeadphones from '@/assets/product-headphones.jpg';
 import productPhone from '@/assets/product-phone.jpg';
 import productBag from '@/assets/product-bag.jpg';
 import productSnacks from '@/assets/product-snacks.jpg';
-import productAppleServices from '@/assets/product-apple-services.jpg';
-import productNetflix from '@/assets/product-netflix.jpg';
-import productGiftCards from '@/assets/product-gift-cards.jpg';
-import productWebServices from '@/assets/product-web-services.jpg';
-import productCvDesign from '@/assets/product-cv-design.jpg';
-import productBranding from '@/assets/product-branding.jpg';
+import productSmartTv from '@/assets/product-smart-tv.jpg';
+import productLaptop from '@/assets/product-laptop.jpg';
+import productCoffeeMaker from '@/assets/product-coffee-maker.jpg';
+import productLadiesDress from '@/assets/product-ladies-dress.jpg';
+import productMensShirt from '@/assets/product-mens-shirt.jpg';
+import productGamingKeyboard from '@/assets/product-gaming-keyboard.jpg';
 
 export interface ProductVariant {
   id: string;
@@ -86,64 +86,66 @@ export const allProducts: Product[] = [
   },
   {
     id: '6',
-    name: 'Apple Services Bundle',
-    price: 19.99,
-    image: productAppleServices,
+    name: '65" Smart TV 4K Ultra HD',
+    price: 799.99,
+    originalPrice: 999.99,
+    image: productSmartTv,
     rating: 4.8,
     reviewCount: 312,
-    category: 'Subscriptions',
-    isNew: true,
+    category: 'Electronics',
+    isSale: true,
   },
   {
     id: '7',
-    name: 'Netflix Premium Subscription',
-    price: 15.99,
-    image: productNetflix,
+    name: 'MacBook Pro 14-inch Laptop',
+    price: 1899.99,
+    image: productLaptop,
     rating: 4.7,
     reviewCount: 1024,
-    category: 'Subscriptions',
+    category: 'Electronics',
+    isNew: true,
   },
   {
     id: '8',
-    name: 'Universal Gift Cards',
-    price: 50.00,
-    image: productGiftCards,
+    name: 'Premium Coffee Maker',
+    price: 249.99,
+    originalPrice: 299.99,
+    image: productCoffeeMaker,
     rating: 4.9,
     reviewCount: 89,
-    category: 'Gift Cards',
-    isNew: true,
+    category: 'Home Appliances',
+    isSale: true,
   },
   {
     id: '9',
-    name: 'Web Development Service',
-    price: 999.99,
-    originalPrice: 1299.99,
-    image: productWebServices,
+    name: 'Elegant Summer Dress',
+    price: 89.99,
+    image: productLadiesDress,
     rating: 4.9,
     reviewCount: 156,
-    category: 'Services',
-    isSale: true,
-  },
-  {
-    id: '10',
-    name: 'Professional CV Design',
-    price: 49.99,
-    image: productCvDesign,
-    rating: 4.8,
-    reviewCount: 78,
-    category: 'Services',
+    category: 'Fashion',
     isNew: true,
   },
   {
+    id: '10',
+    name: 'Men\'s Casual Shirt',
+    price: 49.99,
+    originalPrice: 69.99,
+    image: productMensShirt,
+    rating: 4.8,
+    reviewCount: 78,
+    category: 'Fashion',
+    isSale: true,
+  },
+  {
     id: '11',
-    name: 'Branding & Design Package',
-    price: 499.99,
-    originalPrice: 699.99,
-    image: productBranding,
+    name: 'Gaming Mechanical Keyboard',
+    price: 129.99,
+    image: productGamingKeyboard,
     rating: 4.9,
     reviewCount: 92,
-    category: 'Services',
-    isSale: true,
+    category: 'Electronics',
+    isNew: true,
   },
 ];
 

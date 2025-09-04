@@ -103,6 +103,29 @@ export const Header = () => {
               )}
             </Button>
 
+            {/* Cart */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <ShoppingCart className="w-5 h-5" />
+                {getTotalItems() > 0 && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-2 -right-2"
+                  >
+                    <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
+                      {getTotalItems()}
+                    </Badge>
+                  </motion.div>
+                )}
+              </Button>
+            </motion.div>
+
             {/* Profile */}
             {user ? (
               <DropdownMenu>
@@ -136,29 +159,6 @@ export const Header = () => {
                 </Button>
               </AuthModal>
             )}
-
-            {/* Cart */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="relative"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {getTotalItems() > 0 && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-2 -right-2"
-                  >
-                    <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-secondary text-secondary-foreground">
-                      {getTotalItems()}
-                    </Badge>
-                  </motion.div>
-                )}
-              </Button>
-            </motion.div>
 
             {/* Mobile Menu Toggle */}
             <Button
