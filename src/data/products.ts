@@ -49,7 +49,7 @@ export const allProducts: Product[] = [
     image: productHeadphones,
     rating: 4.9,
     reviewCount: 89,
-    category: 'Electronics',
+    category: 'Audio',
     isNew: true,
   },
   {
@@ -81,7 +81,7 @@ export const allProducts: Product[] = [
     image: productSnacks,
     rating: 4.5,
     reviewCount: 45,
-    category: 'Food & Snacks',
+    category: 'Home & Garden',
     isSale: true,
   },
   {
@@ -113,7 +113,7 @@ export const allProducts: Product[] = [
     image: productCoffeeMaker,
     rating: 4.9,
     reviewCount: 89,
-    category: 'Home Appliances',
+    category: 'Home & Garden',
     isSale: true,
   },
   {
@@ -144,7 +144,7 @@ export const allProducts: Product[] = [
     image: productGamingKeyboard,
     rating: 4.9,
     reviewCount: 92,
-    category: 'Electronics',
+    category: 'Gaming',
     isNew: true,
   },
 ];
@@ -184,31 +184,87 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
             images: [product.image, product.image]
           }
         ];
+      case 'Audio':
+      case 'Gaming':
+        return [
+          {
+            id: 'black',
+            color: 'Midnight Black',
+            colorHex: '#1a1a1a',
+            sizes: ['Small', 'Medium', 'Large'],
+            stock: { 'Small': 8, 'Medium': 15, 'Large': 12 },
+            images: [product.image, product.image]
+          },
+          {
+            id: 'white',
+            color: 'Pearl White',
+            colorHex: '#f8f9fa',
+            sizes: ['Small', 'Medium', 'Large'],
+            stock: { 'Small': 6, 'Medium': 10, 'Large': 8 },
+            images: [product.image, product.image]
+          },
+          {
+            id: 'red',
+            color: 'Gaming Red',
+            colorHex: '#dc2626',
+            sizes: ['Small', 'Medium', 'Large'],
+            stock: { 'Small': 4, 'Medium': 8, 'Large': 6 },
+            images: [product.image, product.image]
+          }
+        ];
       case 'Fashion':
       case 'Accessories':
+      case 'Jerseys':
         return [
           {
             id: 'brown',
             color: 'Rich Brown',
             colorHex: '#8B4513',
-            sizes: ['Small', 'Medium', 'Large'],
-            stock: { 'Small': 8, 'Medium': 15, 'Large': 12 },
+            sizes: ['XS', 'Small', 'Medium', 'Large', 'XL'],
+            stock: { 'XS': 3, 'Small': 8, 'Medium': 15, 'Large': 12, 'XL': 6 },
             images: [product.image, product.image]
           },
           {
             id: 'black',
             color: 'Classic Black',
             colorHex: '#1a1a1a',
-            sizes: ['Small', 'Medium', 'Large'],
-            stock: { 'Small': 6, 'Medium': 10, 'Large': 8 },
+            sizes: ['XS', 'Small', 'Medium', 'Large', 'XL'],
+            stock: { 'XS': 2, 'Small': 6, 'Medium': 10, 'Large': 8, 'XL': 4 },
             images: [product.image, product.image]
           },
           {
-            id: 'tan',
-            color: 'Camel Tan',
-            colorHex: '#D2691E',
-            sizes: ['Small', 'Medium', 'Large'],
-            stock: { 'Small': 4, 'Medium': 8, 'Large': 6 },
+            id: 'navy',
+            color: 'Navy Blue',
+            colorHex: '#1e3a8a',
+            sizes: ['XS', 'Small', 'Medium', 'Large', 'XL'],
+            stock: { 'XS': 1, 'Small': 4, 'Medium': 8, 'Large': 6, 'XL': 3 },
+            images: [product.image, product.image]
+          }
+        ];
+      case 'Home & Garden':
+        return [
+          {
+            id: 'natural',
+            color: 'Natural Wood',
+            colorHex: '#8B4513',
+            sizes: [],
+            stock: { 'One Size': 12 },
+            images: [product.image, product.image]
+          },
+          {
+            id: 'black',
+            color: 'Matte Black',
+            colorHex: '#1a1a1a',
+            sizes: [],
+            stock: { 'One Size': 8 },
+            images: [product.image, product.image]
+          },
+          {
+            id: 'white',
+            color: 'Pure White',
+            colorHex: '#ffffff',
+            sizes: [],
+            stock: { 'One Size': 10 },
             images: [product.image, product.image]
           }
         ];
@@ -229,18 +285,26 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
   const generateDescription = (product: Product): string => {
     switch (product.category) {
       case 'Electronics':
-        if (product.name.includes('Headphones')) {
-          return 'Experience unparalleled audio quality with our Premium Wireless Headphones. Featuring advanced noise cancellation technology, premium materials, and exceptional comfort for extended listening sessions. Perfect for music lovers, professionals, and anyone who demands the best in audio performance.';
-        } else if (product.name.includes('Phone')) {
+        if (product.name.includes('Smartphone')) {
           return 'The latest in smartphone technology with cutting-edge features, exceptional camera quality, and lightning-fast performance. Built with premium materials and designed for the modern lifestyle. Stay connected, productive, and entertained wherever you go.';
+        } else if (product.name.includes('TV')) {
+          return 'Immerse yourself in stunning 4K Ultra HD picture quality with smart features that bring your entertainment to life. Experience vibrant colors, crystal-clear details, and seamless streaming from your favorite apps.';
+        } else if (product.name.includes('Laptop')) {
+          return 'Powerful computing performance meets elegant design in this premium laptop. Whether for work, creativity, or entertainment, experience lightning-fast processing, stunning display quality, and all-day battery life.';
         }
         return 'High-quality electronic device engineered for performance, reliability, and user satisfaction. Built with the latest technology and premium materials.';
+      case 'Audio':
+        return 'Experience unparalleled audio quality with crystal-clear sound, premium comfort, and cutting-edge technology. Perfect for music lovers, professionals, and anyone who demands the best in audio performance.';
       case 'Fashion':
         return 'Crafted with premium materials and attention to detail, this fashion piece combines style with functionality. Perfect for both casual and formal occasions, designed to complement your unique style and provide lasting comfort.';
       case 'Accessories':
         return 'A perfect blend of style and functionality, this accessory is designed to complement your lifestyle. Crafted with premium materials and attention to detail, it\'s built to last while making a statement.';
-      case 'Services':
-        return 'Professional service delivered by experienced experts. We combine creativity, technical expertise, and industry best practices to deliver exceptional results that exceed your expectations.';
+      case 'Gaming':
+        return 'Elevate your gaming experience with professional-grade equipment designed for performance and precision. Built for gamers who demand responsiveness, durability, and competitive edge.';
+      case 'Home & Garden':
+        return 'Transform your living space with this premium home product. Combining functionality with elegant design, it\'s perfect for creating a comfortable and stylish environment you\'ll love.';
+      case 'Jerseys':
+        return 'Show your team pride with this authentic jersey featuring premium materials, official team colors, and comfortable fit. Perfect for game day, casual wear, or collecting your favorite teams.';
       default:
         return 'Premium quality product designed with attention to detail and built to exceed your expectations. Perfect for those who appreciate quality and value.';
     }
@@ -249,16 +313,7 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
   const generateFeatures = (product: Product): string[] => {
     switch (product.category) {
       case 'Electronics':
-        if (product.name.includes('Headphones')) {
-          return [
-            'Active Noise Cancellation with advanced algorithms',
-            '40-hour battery life with quick charge',
-            'Premium leather and memory foam padding',
-            'High-resolution audio with custom drivers',
-            'Bluetooth 5.3 with multi-device connectivity',
-            'Touch controls with voice assistant support'
-          ];
-        } else if (product.name.includes('Phone')) {
+        if (product.name.includes('Smartphone')) {
           return [
             'Pro camera system with advanced computational photography',
             'All-day battery life with fast wireless charging',
@@ -266,6 +321,24 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
             'A17 Pro chip with industry-leading performance',
             '5G connectivity for blazing-fast speeds',
             'Water resistant up to 6 meters for 30 minutes'
+          ];
+        } else if (product.name.includes('TV')) {
+          return [
+            '4K Ultra HD resolution with HDR support',
+            'Smart TV platform with built-in streaming apps',
+            'Dolby Vision and Dolby Atmos for immersive experience',
+            'Multiple HDMI and USB ports for connectivity',
+            'Voice control with built-in assistants',
+            'Sleek design that complements any room'
+          ];
+        } else if (product.name.includes('Laptop')) {
+          return [
+            'High-performance processor for multitasking',
+            'Stunning Retina display with True Tone technology',
+            'All-day battery life up to 18 hours',
+            'Premium aluminum unibody construction',
+            'Advanced thermal architecture for sustained performance',
+            'Touch ID for secure authentication'
           ];
         }
         return [
@@ -275,24 +348,51 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
           'Long-lasting durability and reliability',
           'Comprehensive warranty and support'
         ];
+      case 'Audio':
+        return [
+          'Active Noise Cancellation with advanced algorithms',
+          '40-hour battery life with quick charge',
+          'Premium materials and memory foam padding',
+          'High-resolution audio with custom drivers',
+          'Bluetooth 5.3 with multi-device connectivity',
+          'Touch controls with voice assistant support'
+        ];
       case 'Fashion':
       case 'Accessories':
         return [
-          'Premium leather construction with expert craftsmanship',
-          'Multiple compartments for organized storage',
-          'Durable hardware with lifetime warranty',
-          'Ergonomic design for comfortable everyday use',
-          'Water-resistant coating for protection',
-          'Timeless design that never goes out of style'
+          'Premium materials with expert craftsmanship',
+          'Multiple size options for perfect fit',
+          'Durable construction with quality hardware',
+          'Comfortable design for all-day wear',
+          'Easy care and maintenance instructions',
+          'Timeless style that never goes out of fashion'
         ];
-      case 'Services':
+      case 'Gaming':
         return [
-          'Professional consultation and planning',
-          'Custom solutions tailored to your needs',
-          'Expert team with years of experience',
-          'Timely delivery and project management',
-          'Ongoing support and maintenance',
-          'Satisfaction guarantee with revisions included'
+          'Professional-grade mechanical switches',
+          'RGB backlighting with customizable effects',
+          'Anti-ghosting and N-key rollover technology',
+          'Durable construction built for intensive gaming',
+          'Programmable keys and macros support',
+          'Compatible with all major gaming platforms'
+        ];
+      case 'Home & Garden':
+        return [
+          'Premium materials designed for longevity',
+          'Easy setup and user-friendly operation',
+          'Energy-efficient and environmentally friendly',
+          'Sleek design that complements any decor',
+          'Multiple settings for customized use',
+          'Comprehensive warranty and customer support'
+        ];
+      case 'Jerseys':
+        return [
+          'Official team colors and authentic design',
+          'Premium breathable fabric for comfort',
+          'Moisture-wicking technology keeps you dry',
+          'Durable construction for long-lasting wear',
+          'Official team logos and player details',
+          'Available in multiple sizes for perfect fit'
         ];
       default:
         return [

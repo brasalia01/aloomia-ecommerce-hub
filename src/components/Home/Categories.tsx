@@ -80,7 +80,7 @@ export const Categories = () => {
         {/* Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 lg:gap-6">
           {categories.map((category, index) => (
-            <Link key={category.id} to="/categories">
+            <Link key={category.id} to={`/category/${category.name.toLowerCase()}`}>
               <Card
                 className={cn(
                   "group cursor-pointer border-border hover:border-primary/50",

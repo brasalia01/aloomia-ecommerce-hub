@@ -27,6 +27,7 @@ interface ProductCardProps {
   onToggleWishlist?: (product: Product) => void;
   onQuickView?: (product: Product) => void;
   className?: string;
+  layout?: 'grid' | 'list';
 }
 
 export const ProductCard = ({
@@ -35,6 +36,7 @@ export const ProductCard = ({
   onToggleWishlist,
   onQuickView,
   className,
+  layout = 'grid',
 }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
