@@ -9,12 +9,8 @@ interface AuthContextType {
   loading: boolean;
   userProfile: any | null;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
-  signUpWithPhone: (phone: string, password: string, fullName: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
-  signInWithPhone: (phone: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
-  verifyOTP: (phone: string, token: string) => Promise<void>;
-  resendOTP: (phone: string) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   changePassword: (newPassword: string) => Promise<void>;
@@ -113,33 +109,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUpWithPhone = async (phone: string, password: string, fullName: string) => {
-    try {
-      const { error } = await supabase.auth.signUp({
-        phone,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-        },
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Verification code sent!",
-        description: "Please check your phone for a verification code.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -170,34 +139,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signInWithPhone = async (phone: string, password: string) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        phone,
-        password,
-      });
-
-      if (error) throw error;
-
-      // Check if phone is verified
-      if (data.user && !data.user.phone_confirmed_at) {
-        await supabase.auth.signOut();
-        throw new Error("Please verify your phone number before signing in. Check your SMS for a verification code.");
-      }
-
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
 
   const signInWithGoogle = async () => {
     try {
@@ -225,59 +166,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const verifyOTP = async (phone: string, token: string) => {
-    try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone,
-        token,
-        type: 'sms'
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Phone verified!",
-        description: "You have successfully verified your phone number.",
-      });
-    } catch (error: any) {
-      let errorMessage = error.message;
-      
-      if (error.message?.includes('invalid') || error.message?.includes('expired')) {
-        errorMessage = "Invalid or expired verification code. Please try again.";
-      } else if (error.message?.includes('too_many_requests')) {
-        errorMessage = "Too many attempts. Please wait a few minutes before trying again.";
-      }
-
-      toast({
-        title: "Verification failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
-
-  const resendOTP = async (phone: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        phone,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Code sent!",
-        description: "A new verification code has been sent to your phone.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to send verification code. Please try again.",
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
 
   const signOut = async () => {
     try {
@@ -351,12 +239,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     userProfile,
     signUp,
-    signUpWithPhone,
     signIn,
-    signInWithPhone,
     signInWithGoogle,
-    verifyOTP,
-    resendOTP,
     signOut,
     resetPassword,
     changePassword,
