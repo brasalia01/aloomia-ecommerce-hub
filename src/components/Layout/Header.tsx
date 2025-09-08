@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ShoppingCart, Menu, X, User, Heart, LogOut, Bell } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, User, Heart, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,8 +10,6 @@ import { useCart } from '@/contexts/CartContext';
 import { AuthModal } from '@/components/Auth/AuthModal';
 import { CartDrawer } from '@/components/Cart/CartDrawer';
 import { SearchAutocomplete } from '@/components/Search/SearchAutocomplete';
-import { NotificationCenter } from '@/components/Notifications/NotificationCenter';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -89,12 +87,6 @@ export const Header = () => {
             >
               <Search className="w-5 h-5" />
             </Button>
-
-            {/* Notifications */}
-            {user && <NotificationCenter />}
-
-            {/* Theme Toggle */}
-            <ThemeToggle />
 
             {/* Favorites */}
             <Button 
