@@ -17,13 +17,15 @@ import {
   Eye,
   Settings,
   BarChart3,
-  Shield
+  Shield,
+  Mail
 } from 'lucide-react';
 import AdminProductsManager from '@/components/Admin/AdminProductsManager';
 import AdminUsersManager from '@/components/Admin/AdminUsersManager';
 import AdminOrdersManager from '@/components/Admin/AdminOrdersManager';
 import AdminChatManager from '@/components/Admin/AdminChatManager';
 import AdminAnalytics from '@/components/Admin/AdminAnalytics';
+import { NewsletterManager } from '@/components/Newsletter/NewsletterManager';
 
 const Admin = () => {
   const { user, signOut } = useAuth();
@@ -198,7 +200,7 @@ const Admin = () => {
 
       <div className="p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               Dashboard
@@ -223,6 +225,10 @@ const Admin = () => {
                   {stats.unreadMessages}
                 </Badge>
               )}
+            </TabsTrigger>
+            <TabsTrigger value="newsletter" className="flex items-center gap-2">
+              <Mail className="w-4 h-4" />
+              Newsletter
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
@@ -332,6 +338,10 @@ const Admin = () => {
 
           <TabsContent value="chat">
             <AdminChatManager onStatsUpdate={loadDashboardStats} />
+          </TabsContent>
+
+          <TabsContent value="newsletter">
+            <NewsletterManager />
           </TabsContent>
 
           <TabsContent value="analytics">

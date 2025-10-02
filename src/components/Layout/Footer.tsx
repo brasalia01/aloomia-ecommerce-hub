@@ -1,9 +1,39 @@
+import { useState } from 'react';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async () => {
+    if (!email || !email.includes('@')) {
+      toast({ title: 'Please enter a valid email', variant: 'destructive' });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase
+      .from('newsletter_subscribers')
+      .insert({ email });
+
+    if (error) {
+      if (error.code === '23505') {
+        toast({ title: 'Already subscribed!' });
+      } else {
+        toast({ title: 'Subscription failed', variant: 'destructive' });
+      }
+    } else {
+      toast({ title: 'Successfully subscribed to newsletter!' });
+      setEmail('');
+    }
+    setLoading(false);
+  };
   const quickLinks = [
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
@@ -21,10 +51,10 @@ export const Footer = () => {
   ];
 
   const policies = [
-    { name: 'Privacy Policy', href: '/contact' },
-    { name: 'Terms of Service', href: '/contact' },
-    { name: 'Refund Policy', href: '/contact' },
-    { name: 'Cookie Policy', href: '/contact' },
+    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Terms of Service', href: '/terms-of-service' },
+    { name: 'Refund Policy', href: '/refund-policy' },
+    { name: 'Cookie Policy', href: '/cookie-policy' },
   ];
 
   return (
@@ -43,9 +73,18 @@ export const Footer = () => {
               <Input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSubscribe()}
                 className="bg-white/10 border-white/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-white/15"
               />
-              <Button variant="secondary" size="lg" className="whitespace-nowrap">
+              <Button 
+                variant="secondary" 
+                size="lg" 
+                className="whitespace-nowrap"
+                onClick={handleSubscribe}
+                disabled={loading}
+              >
                 Subscribe
               </Button>
             </div>

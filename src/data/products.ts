@@ -147,6 +147,49 @@ export const allProducts: Product[] = [
     category: 'Gaming',
     isNew: true,
   },
+  {
+    id: '12',
+    name: 'Nike Air Max Running Sneakers',
+    price: 149.99,
+    originalPrice: 189.99,
+    image: productMensShirt, // Placeholder - will be replaced with actual sneaker image
+    rating: 4.8,
+    reviewCount: 234,
+    category: 'Sneakers',
+    isSale: true,
+    isNew: false,
+  },
+  {
+    id: '13',
+    name: 'Adidas Ultra Boost Performance',
+    price: 179.99,
+    image: productBag, // Placeholder - will be replaced with actual sneaker image
+    rating: 4.9,
+    reviewCount: 187,
+    category: 'Sneakers',
+    isNew: true,
+  },
+  {
+    id: '14',
+    name: 'Puma RS-X Street Style',
+    price: 119.99,
+    originalPrice: 149.99,
+    image: productWatch, // Placeholder - will be replaced with actual sneaker image
+    rating: 4.7,
+    reviewCount: 145,
+    category: 'Sneakers',
+    isSale: true,
+  },
+  {
+    id: '15',
+    name: 'Reebok Classic Leather Sneakers',
+    price: 89.99,
+    image: productLadiesDress, // Placeholder - will be replaced with actual sneaker image
+    rating: 4.6,
+    reviewCount: 98,
+    category: 'Sneakers',
+    isNew: false,
+  },
 ];
 
 // Detailed product information
