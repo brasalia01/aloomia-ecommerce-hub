@@ -572,7 +572,6 @@ export type Database = {
           is_active: boolean | null
           phone: string | null
           profile_meta: Json | null
-          role: Database["public"]["Enums"]["user_role"]
           updated_at: string
         }
         Insert: {
@@ -583,7 +582,6 @@ export type Database = {
           is_active?: boolean | null
           phone?: string | null
           profile_meta?: Json | null
-          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string
         }
         Update: {
@@ -594,7 +592,6 @@ export type Database = {
           is_active?: boolean | null
           phone?: string | null
           profile_meta?: Json | null
-          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string
         }
         Relationships: []
@@ -646,6 +643,27 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -653,7 +671,14 @@ export type Database = {
     Functions: {
       get_user_role: {
         Args: { user_id: string }
-        Returns: Database["public"]["Enums"]["user_role"]
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
       send_notification: {
         Args: {
@@ -666,6 +691,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "customer"
       chat_sender: "user" | "admin" | "bot"
       order_status:
         | "pending"
@@ -684,7 +710,6 @@ export type Database = {
         | "failed"
         | "cancelled"
         | "refunded"
-      user_role: "customer" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -812,6 +837,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "customer"],
       chat_sender: ["user", "admin", "bot"],
       order_status: [
         "pending",
@@ -832,7 +858,6 @@ export const Constants = {
         "cancelled",
         "refunded",
       ],
-      user_role: ["customer", "admin"],
     },
   },
 } as const

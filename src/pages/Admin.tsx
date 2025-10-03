@@ -54,13 +54,15 @@ const Admin = () => {
     }
 
     try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role, email')
-        .eq('id', user.id)
+      // Check if user has admin role in user_roles table
+      const { data: userRole } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
         .single();
 
-      if (!profile || (profile.role !== 'admin' && profile.email !== 'admin@myshop.com')) {
+      if (!userRole) {
         navigate('/');
         return;
       }
