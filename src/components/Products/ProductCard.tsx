@@ -18,7 +18,9 @@ export interface Product {
   category: string;
   isNew?: boolean;
   isSale?: boolean;
+  onSale?: boolean;
   isWishlisted?: boolean;
+  features?: string[];
 }
 
 interface ProductCardProps {

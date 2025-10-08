@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { ProductCard } from '@/components/Products/ProductCard';
+import { ReviewSection } from '@/components/Reviews/ReviewSection';
 import { useCart } from '@/contexts/CartContext';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useToast } from '@/hooks/use-toast';
@@ -364,6 +365,20 @@ const ProductDetail = () => {
             </TabsContent>
           </Tabs>
         </div>
+
+        {/* Reviews Section */}
+        <ReviewSection
+          productId={product.id}
+          averageRating={product.rating}
+          totalReviews={product.reviewCount}
+          ratingDistribution={[
+            { stars: 5, count: Math.floor(product.reviewCount * 0.6) },
+            { stars: 4, count: Math.floor(product.reviewCount * 0.2) },
+            { stars: 3, count: Math.floor(product.reviewCount * 0.1) },
+            { stars: 2, count: Math.floor(product.reviewCount * 0.05) },
+            { stars: 1, count: Math.floor(product.reviewCount * 0.05) },
+          ]}
+        />
 
         {/* Similar Products */}
         {similarProducts.length > 0 && (

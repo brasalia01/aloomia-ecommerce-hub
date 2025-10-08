@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Filter, Grid, List, Search, SlidersHorizontal } from 'lucide-react';
+import { Filter, Grid, List, Search, SlidersHorizontal, Scale } from 'lucide-react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { BackButton } from '@/components/ui/back-button';
@@ -14,6 +14,10 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
 import { allProducts } from '@/data/products';
+import { useProductComparison } from '@/hooks/useProductComparison';
+import { ComparisonDrawer } from '@/components/Products/ComparisonDrawer';
+import { ComparisonFloatingButton } from '@/components/Products/ComparisonFloatingButton';
+import { useToast } from '@/hooks/use-toast';
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,9 +25,12 @@ const Products = () => {
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showComparison, setShowComparison] = useState(false);
   
   const { addToCart } = useCart();
   const { toggleFavorite } = useFavorites();
+  const { compareList, addToCompare, removeFromCompare, clearCompare, isInCompare, count } = useProductComparison();
+  const { toast } = useToast();
   const location = useLocation();
 
   // Check for search parameter from header search
@@ -72,6 +79,15 @@ const Products = () => {
 
   const handleQuickView = (product: Product) => {
     console.log('Quick view:', product.name);
+  };
+
+  const handleAddToCompare = (product: Product) => {
+    const result = addToCompare(product);
+    toast({
+      title: result.success ? 'Added to comparison' : 'Cannot add',
+      description: result.message,
+      variant: result.success ? 'default' : 'destructive',
+    });
   };
 
   const FilterContent = () => (
@@ -261,14 +277,25 @@ const Products = () => {
                   : 'grid-cols-1'
               }`}>
                 {sortedProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAddToCart={handleAddToCart}
-                    onToggleWishlist={handleToggleWishlist}
-                    onQuickView={handleQuickView}
-                    className={viewMode === 'list' ? 'flex-row' : ''}
-                  />
+                  <div key={product.id} className="space-y-2">
+                    <ProductCard
+                      product={product}
+                      onAddToCart={handleAddToCart}
+                      onToggleWishlist={handleToggleWishlist}
+                      onQuickView={handleQuickView}
+                      className={viewMode === 'list' ? 'flex-row' : ''}
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleAddToCompare(product)}
+                      disabled={isInCompare(product.id)}
+                      className="w-full"
+                    >
+                      <Scale className="w-4 h-4 mr-2" />
+                      {isInCompare(product.id) ? 'In Comparison' : 'Compare'}
+                    </Button>
+                  </div>
                 ))}
               </div>
             )}
@@ -277,6 +304,21 @@ const Products = () => {
       </main>
 
       <Footer />
+      
+      {/* Comparison Floating Button */}
+      <ComparisonFloatingButton 
+        count={count} 
+        onClick={() => setShowComparison(true)} 
+      />
+      
+      {/* Comparison Drawer */}
+      <ComparisonDrawer
+        isOpen={showComparison}
+        onClose={() => setShowComparison(false)}
+        products={compareList}
+        onRemove={removeFromCompare}
+        onClear={clearCompare}
+      />
     </div>
   );
 };

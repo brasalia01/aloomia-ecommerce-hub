@@ -454,6 +454,33 @@ export type Database = {
           },
         ]
       }
+      product_comparisons: {
+        Row: {
+          created_at: string
+          id: string
+          product_ids: string[]
+          session_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_ids: string[]
+          session_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_ids?: string[]
+          session_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       product_variants: {
         Row: {
           created_at: string
@@ -596,13 +623,44 @@ export type Database = {
         }
         Relationships: []
       }
+      review_votes: {
+        Row: {
+          created_at: string
+          id: string
+          review_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          review_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          review_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_votes_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           body: string | null
           created_at: string
+          helpful_count: number | null
           id: string
           is_approved: boolean | null
           is_verified: boolean | null
+          photos: string[] | null
           product_id: string
           rating: number
           title: string | null
@@ -612,9 +670,11 @@ export type Database = {
         Insert: {
           body?: string | null
           created_at?: string
+          helpful_count?: number | null
           id?: string
           is_approved?: boolean | null
           is_verified?: boolean | null
+          photos?: string[] | null
           product_id: string
           rating: number
           title?: string | null
@@ -624,9 +684,11 @@ export type Database = {
         Update: {
           body?: string | null
           created_at?: string
+          helpful_count?: number | null
           id?: string
           is_approved?: boolean | null
           is_verified?: boolean | null
+          photos?: string[] | null
           product_id?: string
           rating?: number
           title?: string | null

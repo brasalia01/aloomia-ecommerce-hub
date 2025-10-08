@@ -29,7 +29,7 @@ export interface DetailedProduct extends Product {
 }
 
 // Base product data
-export const allProducts: Product[] = [
+export const allProducts: Array<Product & { features?: string[]; onSale?: boolean }> = [
   {
     id: '1',
     name: 'Premium Luxury Watch',
