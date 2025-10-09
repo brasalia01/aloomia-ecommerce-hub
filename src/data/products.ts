@@ -10,6 +10,10 @@ import productCoffeeMaker from '@/assets/product-coffee-maker.jpg';
 import productLadiesDress from '@/assets/product-ladies-dress.jpg';
 import productMensShirt from '@/assets/product-mens-shirt.jpg';
 import productGamingKeyboard from '@/assets/product-gaming-keyboard.jpg';
+import productSneakersNike from '@/assets/product-sneakers-nike.jpg';
+import productSneakersAdidas from '@/assets/product-sneakers-adidas.jpg';
+import productSneakersPuma from '@/assets/product-sneakers-puma.jpg';
+import productSneakersReebok from '@/assets/product-sneakers-reebok.jpg';
 
 export interface ProductVariant {
   id: string;
@@ -152,7 +156,7 @@ export const allProducts: Array<Product & { features?: string[]; onSale?: boolea
     name: 'Nike Air Max Running Sneakers',
     price: 149.99,
     originalPrice: 189.99,
-    image: productMensShirt, // Placeholder - will be replaced with actual sneaker image
+    image: productSneakersNike,
     rating: 4.8,
     reviewCount: 234,
     category: 'Sneakers',
@@ -163,7 +167,7 @@ export const allProducts: Array<Product & { features?: string[]; onSale?: boolea
     id: '13',
     name: 'Adidas Ultra Boost Performance',
     price: 179.99,
-    image: productBag, // Placeholder - will be replaced with actual sneaker image
+    image: productSneakersAdidas,
     rating: 4.9,
     reviewCount: 187,
     category: 'Sneakers',
@@ -174,7 +178,7 @@ export const allProducts: Array<Product & { features?: string[]; onSale?: boolea
     name: 'Puma RS-X Street Style',
     price: 119.99,
     originalPrice: 149.99,
-    image: productWatch, // Placeholder - will be replaced with actual sneaker image
+    image: productSneakersPuma,
     rating: 4.7,
     reviewCount: 145,
     category: 'Sneakers',
@@ -184,7 +188,7 @@ export const allProducts: Array<Product & { features?: string[]; onSale?: boolea
     id: '15',
     name: 'Reebok Classic Leather Sneakers',
     price: 89.99,
-    image: productLadiesDress, // Placeholder - will be replaced with actual sneaker image
+    image: productSneakersReebok,
     rating: 4.6,
     reviewCount: 98,
     category: 'Sneakers',

@@ -11,7 +11,6 @@ import { AuthModal } from '@/components/Auth/AuthModal';
 import { CartDrawer } from '@/components/Cart/CartDrawer';
 import { SearchAutocomplete } from '@/components/Search/SearchAutocomplete';
 import { NotificationCenter } from '@/components/Notifications/NotificationCenter';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -89,9 +88,6 @@ export const Header = () => {
             >
               <Search className="w-5 h-5" />
             </Button>
-
-            {/* Theme Toggle */}
-            <ThemeToggle />
 
             {/* Notifications */}
             {user && <NotificationCenter />}

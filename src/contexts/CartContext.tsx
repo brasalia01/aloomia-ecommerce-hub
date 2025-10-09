@@ -35,9 +35,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const savedCart = localStorage.getItem('aloomia-cart');
     if (savedCart) {
       try {
-        setCartItems(JSON.parse(savedCart));
+        const parsed = JSON.parse(savedCart);
+        // Only set cart items if the parsed data is a valid array
+        if (Array.isArray(parsed)) {
+          setCartItems(parsed);
+        } else {
+          // Clear invalid data
+          localStorage.removeItem('aloomia-cart');
+        }
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
+        localStorage.removeItem('aloomia-cart');
       }
     }
   }, []);
