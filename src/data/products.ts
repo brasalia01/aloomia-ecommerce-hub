@@ -14,6 +14,11 @@ import productSneakersNike from '@/assets/product-sneakers-nike.jpg';
 import productSneakersAdidas from '@/assets/product-sneakers-adidas.jpg';
 import productSneakersPuma from '@/assets/product-sneakers-puma.jpg';
 import productSneakersReebok from '@/assets/product-sneakers-reebok.jpg';
+import productBookFiction from '@/assets/product-book-fiction.jpg';
+import productBookBusiness from '@/assets/product-book-business.jpg';
+import productBookCookbook from '@/assets/product-book-cookbook.jpg';
+import productBookScience from '@/assets/product-book-science.jpg';
+import productBookChildren from '@/assets/product-book-children.jpg';
 
 export interface ProductVariant {
   id: string;
@@ -194,6 +199,58 @@ export const allProducts: Array<Product & { features?: string[]; onSale?: boolea
     category: 'Sneakers',
     isNew: false,
   },
+  {
+    id: '16',
+    name: 'Home Hovel - Classic Fiction Novel',
+    price: 24.99,
+    image: productBookFiction,
+    rating: 4.8,
+    reviewCount: 342,
+    category: 'Books',
+    isNew: false,
+  },
+  {
+    id: '17',
+    name: 'Business & Self Help Guide',
+    price: 29.99,
+    originalPrice: 39.99,
+    image: productBookBusiness,
+    rating: 4.7,
+    reviewCount: 189,
+    category: 'Books',
+    isSale: true,
+  },
+  {
+    id: '18',
+    name: 'Modern Cookbook Collection',
+    price: 34.99,
+    image: productBookCookbook,
+    rating: 4.9,
+    reviewCount: 267,
+    category: 'Books',
+    isNew: true,
+  },
+  {
+    id: '19',
+    name: 'Science & Technology Handbook',
+    price: 39.99,
+    image: productBookScience,
+    rating: 4.6,
+    reviewCount: 145,
+    category: 'Books',
+    isNew: false,
+  },
+  {
+    id: '20',
+    name: 'Children\'s Story Book Collection',
+    price: 19.99,
+    originalPrice: 24.99,
+    image: productBookChildren,
+    rating: 4.8,
+    reviewCount: 423,
+    category: 'Books',
+    isSale: true,
+  },
 ];
 
 // Detailed product information
@@ -352,6 +409,8 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
         return 'Transform your living space with this premium home product. Combining functionality with elegant design, it\'s perfect for creating a comfortable and stylish environment you\'ll love.';
       case 'Jerseys':
         return 'Show your team pride with this authentic jersey featuring premium materials, official team colors, and comfortable fit. Perfect for game day, casual wear, or collecting your favorite teams.';
+      case 'Books':
+        return 'Immerse yourself in captivating stories and knowledge with this carefully curated book. Whether for entertainment, education, or personal growth, this book offers engaging content and high-quality printing for an exceptional reading experience.';
       default:
         return 'Premium quality product designed with attention to detail and built to exceed your expectations. Perfect for those who appreciate quality and value.';
     }
@@ -440,6 +499,15 @@ export const getProductDetails = (productId: string): DetailedProduct | null => 
           'Durable construction for long-lasting wear',
           'Official team logos and player details',
           'Available in multiple sizes for perfect fit'
+        ];
+      case 'Books':
+        return [
+          'High-quality printing on premium paper',
+          'Engaging content from expert authors',
+          'Durable binding for long-lasting use',
+          'Perfect for personal reading or gifting',
+          'Comprehensive index and references',
+          'Available in multiple formats and editions'
         ];
       default:
         return [
