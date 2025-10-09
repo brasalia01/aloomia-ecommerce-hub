@@ -35,7 +35,7 @@ export const supabase = (!supabaseUrl || !supabaseAnonKey)
 
 // Log warning if using mock client
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('⚠️  Supabase environment variables are missing. Please ensure your Supabase project is properly connected in Lovable.');
+  console.warn('⚠️  Supabase environment variables are missing. Please ensure your Supabase project is properly connected in Aloomia.');
 }
 
 // Types for our database tables
