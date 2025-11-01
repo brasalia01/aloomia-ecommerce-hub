@@ -48,10 +48,13 @@ const AdminUsersManager: React.FC<AdminUsersManagerProps> = ({ onStatsUpdate }) 
       if (rolesError) throw rolesError;
 
       // Combine profiles with roles
-      const usersWithRoles = (profiles || []).map(profile => ({
-        ...profile,
-        role: roles?.find(r => r.user_id === profile.id)?.role || 'customer'
-      }));
+      const usersWithRoles = (profiles || []).map(profile => {
+        const userRole = roles?.find(r => r.user_id === profile.id)?.role;
+        return {
+          ...profile,
+          role: (userRole === 'admin' ? 'admin' : 'customer') as 'admin' | 'customer'
+        };
+      });
 
       setUsers(usersWithRoles);
     } catch (error) {

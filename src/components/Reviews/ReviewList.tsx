@@ -121,6 +121,7 @@ export const ReviewList = ({ productId }: ReviewListProps) => {
         await supabase.from('review_votes').insert({
           review_id: reviewId,
           user_id: user.id,
+          vote_type: 'helpful'
         });
 
         // Increment helpful count

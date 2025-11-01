@@ -60,10 +60,10 @@ export const NewsletterManager = () => {
     if (profiles) {
       for (const profile of profiles) {
         await supabase.rpc('send_notification', {
-          target_user_id: profile.id,
-          notification_title: subject,
-          notification_message: message,
-          notification_type: 'info'
+          _user_id: profile.id,
+          _title: subject,
+          _message: message,
+          _type: 'info'
         });
       }
     }

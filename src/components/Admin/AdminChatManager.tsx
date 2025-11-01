@@ -34,7 +34,7 @@ interface Chat {
 interface ChatMessage {
   id: string;
   chat_id: string;
-  sender: 'user' | 'admin' | 'bot';
+  sender: string;
   sender_id: string;
   message: string;
   read_by_admin: boolean;
