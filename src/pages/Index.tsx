@@ -5,7 +5,6 @@ import { HeroSection } from '@/components/Home/HeroSection';
 import { FeaturedProducts } from '@/components/Home/FeaturedProducts';
 import { Categories } from '@/components/Home/Categories';
 import { Testimonials } from '@/components/Home/Testimonials';
-import { ChatWidget } from '@/components/Chat/ChatWidget';
 
 const Index = () => {
   useEffect(() => {
@@ -24,7 +23,6 @@ const Index = () => {
       </main>
 
       <Footer />
-      <ChatWidget />
     </div>
   );
 };
