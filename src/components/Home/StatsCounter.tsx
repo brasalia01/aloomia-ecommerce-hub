@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Package, Users, Globe } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface Stat {
   icon: typeof Package;
@@ -67,13 +68,22 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 export const StatsCounter = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ['20%', '-20%']);
+
   return (
-    <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute inset-0 opacity-5">
+    <section ref={sectionRef} className="py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden">
+      {/* Background Decoration with Parallax */}
+      <motion.div style={{ y }} className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-72 h-72 bg-primary rounded-full blur-3xl" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl" />
-      </div>
+      </motion.div>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="text-center mb-16">

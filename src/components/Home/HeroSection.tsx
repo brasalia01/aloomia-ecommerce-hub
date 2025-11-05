@@ -1,11 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowRight, ShoppingBag, Star, Zap, Shield, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const HeroSection = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   const toggleVideo = () => {
     if (videoRef.current) {
@@ -19,9 +29,9 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-secondary/10">
-      {/* Video Background */}
-      <div className="absolute inset-0 overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-secondary/10">
+      {/* Video Background with Parallax */}
+      <motion.div style={{ y }} className="absolute inset-0 overflow-hidden">
         <video
           ref={videoRef}
           autoPlay
@@ -34,7 +44,7 @@ export const HeroSection = () => {
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30" />
-      </div>
+      </motion.div>
 
       {/* Video Control Button */}
       <button
@@ -55,8 +65,8 @@ export const HeroSection = () => {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      {/* Content with Parallax */}
+      <motion.div style={{ opacity }} className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-3xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-secondary/10 backdrop-blur-sm border border-secondary/20 rounded-full px-6 py-2 mb-8 animate-fade-in">
@@ -128,7 +138,7 @@ export const HeroSection = () => {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Decorative Elements */}
       <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-primary rounded-full animate-ping" />

@@ -5,6 +5,8 @@ import { HeroSection } from '@/components/Home/HeroSection';
 import { FeaturedProducts } from '@/components/Home/FeaturedProducts';
 import { Categories } from '@/components/Home/Categories';
 import { StatsCounter } from '@/components/Home/StatsCounter';
+import { BrandsSection } from '@/components/Home/BrandsSection';
+import { BlogSection } from '@/components/Home/BlogSection';
 import { Testimonials } from '@/components/Home/Testimonials';
 
 const Index = () => {
@@ -21,6 +23,8 @@ const Index = () => {
         <StatsCounter />
         <FeaturedProducts />
         <Categories />
+        <BrandsSection />
+        <BlogSection />
         <Testimonials />
       </main>
 
