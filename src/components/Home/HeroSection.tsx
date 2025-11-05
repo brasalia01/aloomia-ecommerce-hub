@@ -1,28 +1,58 @@
-import { ArrowRight, ShoppingBag, Star, Zap, Shield } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ArrowRight, ShoppingBag, Star, Zap, Shield, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import heroBanner from '@/assets/hero-banner.jpg';
 
 export const HeroSection = () => {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-secondary/10">
-      {/* Animated Background Pattern */}
+      {/* Video Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+        >
+          <source src="https://cdn.pixabay.com/video/2022/12/06/142229-779456526_large.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30" />
       </div>
 
-      {/* Hero Image - Right Side */}
-      <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-20 lg:opacity-100">
-        <div className="relative h-full w-full">
-          <img
-            src={heroBanner}
-            alt="Aloomia Premium Collection"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 lg:via-background/40 to-transparent" />
-        </div>
+      {/* Video Control Button */}
+      <button
+        onClick={toggleVideo}
+        className="absolute bottom-8 right-8 z-20 w-14 h-14 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 flex items-center justify-center hover:bg-primary/30 transition-all group"
+        aria-label={isPlaying ? 'Pause video' : 'Play video'}
+      >
+        {isPlaying ? (
+          <Pause className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+        ) : (
+          <Play className="w-6 h-6 text-primary group-hover:scale-110 transition-transform ml-0.5" />
+        )}
+      </button>
+
+      {/* Animated Background Pattern */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Content */}
@@ -37,7 +67,7 @@ export const HeroSection = () => {
           {/* Main Heading */}
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-foreground mb-8 leading-[1.1] animate-slide-up">
             Elevate Your
-            <span className="block mt-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient">
+            <span className="block mt-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
               Lifestyle
             </span>
           </h1>

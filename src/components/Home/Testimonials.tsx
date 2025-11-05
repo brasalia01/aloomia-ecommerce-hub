@@ -1,210 +1,131 @@
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-interface Testimonial {
-  id: string;
-  name: string;
-  role: string;
-  content: string;
-  rating: number;
-  avatar?: string;
-}
+const testimonials = [
+  {
+    name: "Antoinette Sey",
+    role: "Verified Customer",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+    rating: 5,
+    quote: "Amazing quality and fast delivery! The products exceeded my expectations. Aloomia has become my go-to store for premium items.",
+  },
+  {
+    name: "Bra Salia",
+    role: "Regular Customer",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+    rating: 5,
+    quote: "Excellent customer service and authentic products. The shopping experience is smooth and the packaging is always perfect.",
+  },
+  {
+    name: "Akosuah Ilem",
+    role: "Fashion Enthusiast",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
+    rating: 5,
+    quote: "Love the variety and quality of products. The prices are reasonable and the style selections are always on-trend.",
+  },
+  {
+    name: "Kwame Asante",
+    role: "Tech Professional",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
+    rating: 5,
+    quote: "The subscription services are worth every penny. Apple Music and Netflix subscriptions delivered instantly!",
+  },
+  {
+    name: "Ama Boateng",
+    role: "Small Business Owner",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop",
+    rating: 5,
+    quote: "Their web development service helped transform my business. Professional, affordable, and delivered on time.",
+  },
+];
 
 export const Testimonials = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const testimonials: Testimonial[] = [
-    {
-      id: '1',
-      name: 'Antoinette Sey',
-      role: 'Verified Customer',
-      content: 'Amazing quality and fast delivery! The products exceeded my expectations. Aloomia has become my go-to store for premium items.',
-      rating: 5,
-    },
-    {
-      id: '2',
-      name: 'Bra Salia',
-      role: 'Regular Customer',
-      content: 'Excellent customer service and authentic products. The shopping experience is smooth and the packaging is always perfect.',
-      rating: 5,
-    },
-    {
-      id: '3',
-      name: 'Akosuah Ilem',
-      role: 'Fashion Enthusiast',
-      content: 'Love the variety and quality of products. The prices are reasonable and the style selections are always on-trend.',
-      rating: 5,
-    },
-    {
-      id: '4',
-      name: 'Kwame Asante',
-      role: 'Tech Professional',
-      content: 'The subscription services are worth every penny. Apple Music and Netflix subscriptions delivered instantly!',
-      rating: 5,
-    },
-    {
-      id: '5',
-      name: 'Ama Boateng',
-      role: 'Small Business Owner',
-      content: 'Their web development service helped transform my business. Professional, affordable, and delivered on time.',
-      rating: 5,
-    },
-  ];
+  const [api, setApi] = useState<CarouselApi>();
 
-  // Auto-slide every 4 seconds
   useEffect(() => {
+    if (!api) return;
+
+    // Auto-rotate every 5 seconds
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 4000);
+      api.scrollNext();
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
-  };
+  }, [api]);
 
   return (
-    <section className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12 lg:mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+    <section className="py-20 bg-gradient-to-b from-background to-primary/5 relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             What Our Customers Say
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of satisfied customers who trust Aloomia for their shopping needs
+            Don't just take our word for it - hear from our satisfied customers
           </p>
         </div>
 
-        {/* Testimonials Slideshow */}
-        <div className="relative max-w-4xl mx-auto mb-16">
-          {/* Main Testimonial Display */}
-          <div className="relative overflow-hidden">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-            >
-              {testimonials.map((testimonial, index) => (
-                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                  <Card className="border-border hover:shadow-medium transition-all duration-300 bg-gradient-card">
-                    <CardContent className="p-8 text-center">
-                      {/* Quote Icon */}
-                      <Quote className="w-12 h-12 text-primary mx-auto mb-6 opacity-20" />
-
-                      {/* Rating */}
-                      <div className="flex items-center justify-center gap-1 mb-6">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "w-5 h-5",
-                              i < testimonial.rating
-                                ? "fill-secondary text-secondary"
-                                : "fill-muted text-muted"
-                            )}
-                          />
-                        ))}
+        <Carousel
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full max-w-6xl mx-auto"
+        >
+          <CarouselContent>
+            {testimonials.map((testimonial, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                <Card className="h-full border-border/50 hover:border-primary/50 transition-all hover:shadow-elegant">
+                  <CardContent className="p-8 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-6">
+                      <Avatar className="w-16 h-16 border-2 border-primary/20">
+                        <AvatarImage src={testimonial.image} alt={testimonial.name} />
+                        <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-semibold text-foreground">{testimonial.name}</h3>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                       </div>
+                    </div>
 
-                      {/* Content */}
-                      <blockquote className="text-lg text-foreground mb-8 leading-relaxed italic max-w-2xl mx-auto">
-                        "{testimonial.content}"
-                      </blockquote>
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-secondary text-secondary" />
+                      ))}
+                    </div>
 
-                      {/* Author */}
-                      <div className="flex items-center justify-center gap-4">
-                        <Avatar className="w-16 h-16">
-                          <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                          <AvatarFallback className="bg-primary text-primary-foreground text-lg">
-                            {testimonial.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-semibold text-foreground text-lg">
-                            {testimonial.name}
-                          </div>
-                          <div className="text-muted-foreground">
-                            {testimonial.role}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Buttons */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={cn(
-                  "w-3 h-3 rounded-full transition-all duration-300",
-                  index === currentIndex 
-                    ? "bg-primary scale-125" 
-                    : "bg-muted hover:bg-primary/50"
-                )}
-              />
+                    <p className="text-muted-foreground leading-relaxed flex-grow">
+                      "{testimonial.quote}"
+                    </p>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
             ))}
-          </div>
-        </div>
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex -left-12" />
+          <CarouselNext className="hidden md:flex -right-12" />
+        </Carousel>
 
-        {/* Trust Indicators */}
-        <div className="text-center">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
-            {[
-              { label: 'Happy Customers', value: '10,000+' },
-              { label: 'Products Sold', value: '50,000+' },
-              { label: 'Countries', value: '25+' },
-              { label: 'Satisfaction Rate', value: '99%' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="text-2xl lg:text-3xl font-bold text-primary mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="text-center mt-8">
+          <p className="text-sm text-muted-foreground">
+            Auto-rotating every 5 seconds
+          </p>
         </div>
       </div>
     </section>
