@@ -1,72 +1,61 @@
-import { ArrowRight, ShoppingBag, Sparkles } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Star, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import heroBanner from '@/assets/hero-banner.jpg';
-import heroVideoBg from '@/assets/hero-video-bg.jpg';
-import cosmeticsVideoBg from '@/assets/cosmetics-video-bg.jpg';
 
 export const HeroSection = () => {
   return (
-    <section className="relative min-h-[80vh] lg:min-h-[90vh] flex items-center overflow-hidden">
-      {/* Video-like Animated Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Primary animated cosmetics background */}
-          <img
-            src={cosmeticsVideoBg}
-            alt="Aloomia Cosmetics Animation"
-            className="w-full h-full object-cover animate-[float_8s_ease-in-out_infinite,rotate_20s_linear_infinite,scale_15s_ease-in-out_infinite] opacity-80"
-          />
-          {/* Secondary overlay with different animation timing */}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-secondary/10">
+      {/* Animated Background Pattern */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Hero Image - Right Side */}
+      <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-20 lg:opacity-100">
+        <div className="relative h-full w-full">
           <img
             src={heroBanner}
-            alt="Aloomia Hero Overlay"
-            className="absolute inset-0 w-full h-full object-cover animate-[pulse_12s_ease-in-out_infinite,scale_18s_ease-in-out_infinite_reverse] opacity-20 mix-blend-overlay"
+            alt="Aloomia Premium Collection"
+            className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Third layer for depth */}
-          <img
-            src={cosmeticsVideoBg}
-            alt="Aloomia Background Layer"
-            className="absolute inset-0 w-full h-full object-cover animate-[rotate_25s_linear_infinite_reverse,float_10s_ease-in-out_infinite] opacity-30 scale-110"
-          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 lg:via-background/40 to-transparent" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-primary/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="max-w-2xl lg:max-w-3xl">
+        <div className="max-w-3xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-secondary/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6 mt-8 md:mt-0 animate-fade-in">
-            <Sparkles className="w-4 h-4 text-secondary" />
-            <span className="text-sm font-medium text-white">New Collection Available</span>
+          <div className="inline-flex items-center gap-2 bg-secondary/10 backdrop-blur-sm border border-secondary/20 rounded-full px-6 py-2 mb-8 animate-fade-in">
+            <Star className="w-4 h-4 text-secondary fill-secondary" />
+            <span className="text-sm font-semibold text-foreground">Premium Collection 2025</span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slide-up">
-            Discover Your
-            <span className="block bg-gradient-to-r from-secondary to-secondary-hover bg-clip-text text-transparent">
-              Perfect Style
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-foreground mb-8 leading-[1.1] animate-slide-up">
+            Elevate Your
+            <span className="block mt-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient">
+              Lifestyle
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg lg:text-xl text-white/90 mb-8 leading-relaxed animate-slide-up max-w-xl">
-            Shop premium products with exceptional quality and unbeatable prices. 
-            Your style journey begins here at Aloomia.
+          <p className="text-lg lg:text-2xl text-muted-foreground mb-12 leading-relaxed animate-fade-in max-w-2xl font-light">
+            Discover curated collections of premium products designed for those who appreciate quality, style, and innovation.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in">
+          <div className="flex flex-col sm:flex-row gap-4 mb-16 animate-fade-in">
             <Link to="/products">
               <Button
                 size="lg"
-                className="bg-secondary hover:bg-secondary-hover text-secondary-foreground shadow-glow group"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-elegant group h-14 px-8 text-lg"
               >
-                <ShoppingBag className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-                Shop Now
+                <ShoppingBag className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Start Shopping
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
@@ -75,26 +64,35 @@ export const HeroSection = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-white/30 text-blue-900 hover:bg-white/10 hover:text-white backdrop-blur-sm transition-colors"
+                className="border-2 h-14 px-8 text-lg hover:bg-secondary/10 hover:border-secondary transition-all"
               >
-                Explore Collection
+                Browse Collections
               </Button>
             </Link>
           </div>
 
           {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-scale-in">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 animate-fade-in">
             {[
-              { label: 'Free Shipping', value: 'On orders $50+' },
-              { label: '24/7 Support', value: 'Always here for you' },
-              { label: 'Secure Payment', value: '100% protected' },
+              { icon: Zap, label: 'Fast Delivery', value: 'Express shipping on all orders' },
+              { icon: Shield, label: 'Secure Checkout', value: '100% payment protection' },
+              { icon: Star, label: 'Premium Quality', value: 'Carefully curated products' },
             ].map((feature, index) => (
-              <div key={index} className="text-center sm:text-left">
-                <div className="text-2xl font-bold text-white mb-1">
-                  {feature.label}
+              <div 
+                key={index} 
+                className="flex items-start gap-4 group"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <feature.icon className="w-6 h-6 text-primary" />
                 </div>
-                <div className="text-white/80 text-sm">
-                  {feature.value}
+                <div>
+                  <div className="font-semibold text-foreground mb-1">
+                    {feature.label}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {feature.value}
+                  </div>
                 </div>
               </div>
             ))}
@@ -102,10 +100,9 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-20 right-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-float" />
-      <div className="absolute bottom-32 right-32 w-16 h-16 bg-white/10 rounded-full blur-lg animate-float" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 right-20 w-12 h-12 bg-secondary/30 rounded-full blur-md animate-float" style={{ animationDelay: '2s' }} />
+      {/* Decorative Elements */}
+      <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-primary rounded-full animate-ping" />
+      <div className="absolute bottom-1/3 right-1/3 w-2 h-2 bg-secondary rounded-full animate-ping" style={{ animationDelay: '1s' }} />
     </section>
   );
 };
