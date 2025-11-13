@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import { HeroSection } from '@/components/Home/HeroSection';
+import { PromotionalBanner } from '@/components/Home/PromotionalBanner';
+import { InteractiveProductShowcase } from '@/components/Home/InteractiveProductShowcase';
 import { FeaturedProducts } from '@/components/Home/FeaturedProducts';
 import { Categories } from '@/components/Home/Categories';
 import { StatsCounter } from '@/components/Home/StatsCounter';
@@ -16,10 +18,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PromotionalBanner />
       <Header />
       
       <main>
         <HeroSection />
+        <InteractiveProductShowcase />
         <StatsCounter />
         <FeaturedProducts />
         <Categories />

@@ -34,12 +34,23 @@ export const Header = () => {
   };
 
   const navigationItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
-    { name: 'Categories', href: '/categories' },
+    { name: 'Home', href: '/', anchor: '#home' },
+    { name: 'Products', href: '/', anchor: '#products' },
+    { name: 'Testimonials', href: '/', anchor: '#testimonials' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
+    if (item.anchor && window.location.pathname === '/') {
+      e.preventDefault();
+      const element = document.querySelector(item.anchor);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -60,6 +71,7 @@ export const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
+                onClick={(e) => handleNavClick(e, item)}
                 className="text-foreground hover:text-primary transition-colors relative group cursor-pointer"
               >
                 {item.name}
@@ -210,7 +222,7 @@ export const Header = () => {
                 >
                   <Link
                     to={item.href}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, item)}
                     className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer block"
                   >
                     {item.name}

@@ -64,7 +64,7 @@ export const Testimonials = () => {
   }, [api]);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-primary/5 relative overflow-hidden">
+    <section id="testimonials" className="py-20 bg-gradient-to-b from-background to-primary/5 relative overflow-hidden">
       {/* Background Decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl" />
