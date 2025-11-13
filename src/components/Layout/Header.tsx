@@ -34,22 +34,14 @@ export const Header = () => {
   };
 
   const navigationItems = [
-    { name: 'Home', href: '/', anchor: '#home' },
-    { name: 'Products', href: '/', anchor: '#products' },
-    { name: 'Testimonials', href: '/', anchor: '#testimonials' },
+    { name: 'Home', href: '/' },
+    { name: 'Products', href: '/products' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
-    if (item.anchor && window.location.pathname === '/') {
-      e.preventDefault();
-      const element = document.querySelector(item.anchor);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      setIsMenuOpen(false);
-    }
+  const handleNavClick = () => {
+    setIsMenuOpen(false);
   };
 
   return (
@@ -67,12 +59,12 @@ export const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigationItems.map((item) => (
+          {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                onClick={(e) => handleNavClick(e, item)}
                 className="text-foreground hover:text-primary transition-colors relative group cursor-pointer"
+                aria-label={`Navigate to ${item.name}`}
               >
                 {item.name}
                 <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
@@ -97,6 +89,7 @@ export const Header = () => {
               size="icon"
               className="lg:hidden"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
+              aria-label="Toggle search"
             >
               <Search className="w-5 h-5" />
             </Button>
@@ -110,6 +103,7 @@ export const Header = () => {
               size="icon" 
               className="hidden lg:flex relative"
               onClick={() => navigate('/profile?tab=favorites')}
+              aria-label={`View favorites (${favorites.length} items)`}
             >
               <Heart className="w-5 h-5" />
               {favorites.length > 0 && (
@@ -126,6 +120,7 @@ export const Header = () => {
                 size="icon" 
                 className="relative"
                 onClick={() => setIsCartOpen(true)}
+                aria-label={`Shopping cart (${getTotalItems()} items)`}
               >
                 <ShoppingCart className="w-5 h-5" />
                 {getTotalItems() > 0 && (
@@ -146,7 +141,7 @@ export const Header = () => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hidden lg:flex">
+                  <Button variant="ghost" size="icon" className="hidden lg:flex" aria-label="User profile menu">
                     <User className="w-5 h-5" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -182,6 +177,8 @@ export const Header = () => {
               size="icon"
               className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -222,8 +219,9 @@ export const Header = () => {
                 >
                   <Link
                     to={item.href}
-                    onClick={(e) => handleNavClick(e, item)}
+                    onClick={handleNavClick}
                     className="text-foreground hover:text-primary transition-colors py-2 text-left cursor-pointer block"
+                    aria-label={`Navigate to ${item.name}`}
                   >
                     {item.name}
                   </Link>

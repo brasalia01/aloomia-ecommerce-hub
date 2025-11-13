@@ -141,7 +141,7 @@ export const HeroSection = () => {
             >
               {[
                 { icon: Zap, label: 'Fast Delivery', value: '2-3 days' },
-                { icon: Shield, label: 'Secure Payment', value: '100% safe' },
+                { icon: Shield, label: 'Secure Shopping', value: '100% safe' },
                 { icon: Star, label: 'Top Quality', value: 'Guaranteed' },
               ].map((feature, index) => (
                 <div key={index} className="text-center space-y-2">
@@ -167,7 +167,7 @@ export const HeroSection = () => {
             className="hidden lg:grid grid-cols-2 gap-4"
           >
             {[
-              { title: 'Free Shipping', desc: 'On orders over $50', icon: Package, color: 'primary' },
+              { title: 'Reliable Delivery', desc: 'We deliver to your doorstep', icon: Package, color: 'primary' },
               { title: '24/7 Support', desc: 'Always here to help', icon: Shield, color: 'secondary' },
               { title: 'Best Prices', desc: 'Competitive deals', icon: TrendingUp, color: 'accent' },
               { title: 'Top Brands', desc: 'Trusted quality', icon: Star, color: 'primary' },

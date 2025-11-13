@@ -77,7 +77,7 @@ export const ComparisonDrawer = ({
                   <h3 className="font-semibold mb-2 line-clamp-2">{product.name}</h3>
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold text-primary">
-                      ${product.price.toFixed(2)}
+                      GH₵ {product.price.toFixed(2)}
                     </span>
                     <div className="flex items-center gap-1">
                       <span className="text-sm">⭐ {product.rating}</span>
@@ -130,7 +130,7 @@ export const ComparisonDrawer = ({
                 {products.map((product) => (
                   <div key={product.id} className="p-4 border-l">
                     <span className="text-lg font-bold text-primary">
-                      ${product.price.toFixed(2)}
+                      GH₵ {product.price.toFixed(2)}
                     </span>
                   </div>
                 ))}

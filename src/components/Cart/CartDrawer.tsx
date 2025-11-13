@@ -176,21 +176,17 @@ export const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                   </div>
                 </div>
 
-                {/* Free Shipping Notice */}
-                {shipping > 0 && (
-                  <div className="text-xs text-muted-foreground text-center p-2 bg-muted/50 rounded">
-                    💡 Add GH₵ {(100 - subtotal).toFixed(2)} more for free shipping
-                  </div>
-                )}
+                {/* Delivery Notice */}
+                <div className="text-xs text-muted-foreground text-center p-2 bg-muted/50 rounded">
+                  📦 Delivery fee will be calculated based on your location
+                </div>
 
                 {/* Action Buttons */}
                 <div className="space-y-2">
-                  <Link to="/checkout" onClick={onClose}>
-                    <Button size="lg" className="w-full group">
-                      Checkout
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
+                  <Button size="lg" className="w-full group" disabled>
+                    Checkout (Coming Soon)
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                   <Link to="/cart" onClick={() => { onClose(); window.scrollTo(0, 0); }}>
                     <Button variant="outline" size="lg" className="w-full">
                       View Cart

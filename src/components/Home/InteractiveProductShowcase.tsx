@@ -169,11 +169,11 @@ export const InteractiveProductShowcase = () => {
                     {/* Price */}
                     <div className="flex items-baseline gap-2">
                       <span className="text-lg md:text-xl font-bold text-foreground">
-                        ${product.price.toFixed(2)}
+                        GH₵ {product.price.toFixed(2)}
                       </span>
                       {product.isSale && product.originalPrice && (
                         <span className="text-xs md:text-sm text-muted-foreground line-through">
-                          ${product.originalPrice.toFixed(2)}
+                          GH₵ {product.originalPrice.toFixed(2)}
                         </span>
                       )}
                     </div>

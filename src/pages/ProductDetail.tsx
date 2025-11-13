@@ -101,21 +101,22 @@ const ProductDetail = () => {
           variant="ghost"
           onClick={() => navigate(-1)}
           className="mb-6 -ml-2"
+          aria-label="Go back to previous page"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" />
           Back
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-lg bg-muted">
-              <img
-                src={selectedVariant?.images[selectedImageIndex] || product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+          <div className="aspect-square overflow-hidden rounded-lg bg-muted">
+            <img
+              src={selectedVariant?.images[selectedImageIndex] || product.image}
+              alt={`${product.name} - ${selectedVariant?.color || 'main image'}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
             {selectedVariant && selectedVariant.images.length > 1 && (
               <div className="flex gap-2">
                 {selectedVariant.images.map((image, index) => (
@@ -126,10 +127,11 @@ const ProductDetail = () => {
                       "aspect-square w-16 rounded-md overflow-hidden border-2",
                       selectedImageIndex === index ? "border-primary" : "border-transparent"
                     )}
+                    aria-label={`View image ${index + 1} of ${product.name}`}
                   >
                     <img
                       src={image}
-                      alt={`${product.name} ${index + 1}`}
+                      alt={`${product.name} view ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -273,36 +275,40 @@ const ProductDetail = () => {
                     size="icon"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
                   >
                     <Minus className="w-4 h-4" />
                   </Button>
-                  <span className="px-4 py-2 font-medium">{quantity}</span>
+                  <span className="px-4 py-2 font-medium" role="status" aria-live="polite">{quantity}</span>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => setQuantity(Math.min(currentStock, quantity + 1))}
                     disabled={quantity >= currentStock}
+                    aria-label="Increase quantity"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
 
-                <Button
-                  onClick={handleAddToCart}
-                  disabled={isOutOfStock}
-                  className="flex-1"
-                  size="lg"
-                >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  {isOutOfStock ? "Out of Stock" : "Add to Cart"}
-                </Button>
+          <Button
+            onClick={handleAddToCart}
+            disabled={isOutOfStock}
+            className="flex-1"
+            size="lg"
+            aria-label={isOutOfStock ? "Product out of stock" : `Add ${product.name} to cart`}
+          >
+            <ShoppingCart className="w-4 h-4 mr-2" aria-hidden="true" />
+            {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+          </Button>
 
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => toggleFavorite(product)}
-                  className="h-11 w-11"
-                >
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => toggleFavorite(product)}
+            className="h-11 w-11"
+            aria-label={isFavorite(product.id) ? `Remove ${product.name} from favorites` : `Add ${product.name} to favorites`}
+          >
                   <Heart
                     className={cn(
                       "w-5 h-5",
@@ -317,15 +323,15 @@ const ProductDetail = () => {
             <div className="space-y-4 pt-6 border-t">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="flex items-center gap-3">
-                  <Truck className="w-5 h-5 text-primary" />
-                  <span className="text-sm">Free Shipping</span>
+                  <Truck className="w-5 h-5 text-primary" aria-hidden="true" />
+                  <span className="text-sm">Doorstep Delivery</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Shield className="w-5 h-5 text-primary" />
+                  <Shield className="w-5 h-5 text-primary" aria-hidden="true" />
                   <span className="text-sm">2 Year Warranty</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <RotateCcw className="w-5 h-5 text-primary" />
+                  <RotateCcw className="w-5 h-5 text-primary" aria-hidden="true" />
                   <span className="text-sm">30 Day Returns</span>
                 </div>
               </div>

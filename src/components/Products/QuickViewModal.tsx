@@ -260,7 +260,7 @@ export const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps
               
               <div className="flex justify-center mt-4">
                 <p className="text-xs text-muted-foreground">
-                  ✓ Free shipping on orders over GH₵ 100
+                  ✓ Delivery available - fees calculated at cart
                 </p>
               </div>
             </div>

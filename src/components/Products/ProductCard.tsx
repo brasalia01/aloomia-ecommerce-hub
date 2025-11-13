@@ -96,15 +96,16 @@ export const ProductCard = ({
             )}
           />
         </Button>
-        <Button
-          variant="secondary"
-          size="icon"
-          className="h-9 w-9 bg-background/95 hover:bg-background shadow-lg border border-border/50"
-          onClick={() => setShowQuickView(true)}
-          title="Quick View"
-        >
-          <Eye className="w-4 h-4 text-muted-foreground hover:text-primary" />
-        </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-9 w-9 bg-background/95 hover:bg-background shadow-lg border border-border/50"
+            onClick={() => setShowQuickView(true)}
+            title="Quick View"
+            aria-label={`Quick view ${product.name}`}
+          >
+            <Eye className="w-4 h-4 text-muted-foreground hover:text-primary" />
+          </Button>
       </div>
 
       {/* Product Image */}
@@ -130,13 +131,14 @@ export const ProductCard = ({
             isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           )}
         >
-          <Button
-            className="w-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg"
-            onClick={() => onAddToCart?.(product)}
-          >
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Add to Cart
-          </Button>
+            <Button
+              className="w-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg"
+              onClick={() => onAddToCart?.(product)}
+              aria-label={`Add ${product.name} to cart`}
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" aria-hidden="true" />
+              Add to Cart
+            </Button>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ArrowRight, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import { Header } from '@/components/Layout/Header';
@@ -254,23 +254,23 @@ const Cart = () => {
 
                 {shipping > 0 && (
                   <p className="text-sm text-muted-foreground">
-                    💡 Add GH₵ {(100 - subtotal).toFixed(2)} more for free shipping
+                    📦 Delivery fee calculated based on location
                   </p>
                 )}
 
-                <Link to="/checkout">
-                  <Button
-                    size="lg"
-                    className="w-full group"
-                  >
-                    Proceed to Checkout
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
+                <Button
+                  size="lg"
+                  className="w-full group"
+                  disabled
+                >
+                  Checkout (Coming Soon)
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
 
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground">
-                    Secure checkout powered by SSL encryption
+                    <Shield className="w-3 h-3 inline mr-1" aria-hidden="true" />
+                    Secure browsing with SSL encryption
                   </p>
                 </div>
               </CardContent>
