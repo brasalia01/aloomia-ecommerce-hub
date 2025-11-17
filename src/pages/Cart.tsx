@@ -50,8 +50,23 @@ const Cart = () => {
       alert('Your cart is empty!');
       return;
     }
-    // Navigate to checkout page
-    window.location.href = '/checkout';
+    
+    // Format order details for WhatsApp
+    const orderSummary = cartItems.map((item, index) => 
+      `${index + 1}. ${item.name}\n   Qty: ${item.quantity} × GH₵${item.price.toFixed(2)} = GH₵${(item.quantity * item.price).toFixed(2)}`
+    ).join('\n\n');
+    
+    const discountText = isPromoApplied ? `\nDiscount (10%): -GH₵${discount.toFixed(2)}` : '';
+    const shippingText = shipping === 0 ? '\nShipping: Free' : `\nShipping: GH₵${shipping.toFixed(2)}`;
+    
+    const message = `🛒 *New Order from Aloomia*\n\n*Order Details:*\n${orderSummary}\n\n*Order Summary:*\nSubtotal: GH₵${subtotal.toFixed(2)}${discountText}${shippingText}\nTax (8%): GH₵${tax.toFixed(2)}\n\n*Total Amount: GH₵${total.toFixed(2)}*\n\nPlease confirm my order and provide delivery details.`;
+    
+    // Encode message for WhatsApp URL
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/233555528622?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
   };
 
   if (cartItems.length === 0) {
@@ -261,9 +276,9 @@ const Cart = () => {
                 <Button
                   size="lg"
                   className="w-full group"
-                  disabled
+                  onClick={handleCheckout}
                 >
-                  Checkout (Coming Soon)
+                  Place Order via WhatsApp
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
 
