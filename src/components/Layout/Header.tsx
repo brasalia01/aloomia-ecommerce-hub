@@ -72,13 +72,31 @@ export const Header = () => {
             ))}
           </nav>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden lg:flex items-center flex-1 max-w-sm mx-8">
-            <SearchAutocomplete
-              placeholder="Search products..."
-              onSearch={handleSearch}
-              className="w-full"
-            />
+          {/* Search Bar - Desktop (Expandable) */}
+          <div className="hidden lg:flex items-center">
+            {isSearchOpen ? (
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 320, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mr-4"
+              >
+                <SearchAutocomplete
+                  placeholder="Search products..."
+                  onSearch={handleSearch}
+                  className="w-full"
+                />
+              </motion.div>
+            ) : null}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              aria-label="Toggle search"
+            >
+              <Search className="w-5 h-5" />
+            </Button>
           </div>
 
           {/* Actions */}
