@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
 
@@ -52,20 +53,34 @@ const Contact = () => {
 
   const faqItems = [
     {
-      question: 'What are your shipping options?',
-      answer: 'We offer standard and express shipping options. Standard shipping takes 3-5 business days, while express shipping takes 1-2 business days.',
+      question: 'What are your delivery options?',
+      answer: 'We offer reliable doorstep delivery across Ghana. Standard delivery takes 3-5 business days, while express delivery takes 1-2 business days. Delivery fees are calculated based on your location during checkout.',
+      category: 'Delivery'
     },
     {
-      question: 'What is your return policy?',
-      answer: 'We accept returns within 30 days of purchase. Items must be in original condition with tags attached.',
-    },
-    {
-      question: 'Do you ship internationally?',
-      answer: 'Yes, we ship to over 25 countries worldwide. Shipping costs and times vary by destination.',
+      question: 'What is your return and refund policy?',
+      answer: 'We accept returns within 30 days of purchase for items in original condition with tags attached. Once we receive your return, refunds are processed within 5-7 business days to your original payment method.',
+      category: 'Returns'
     },
     {
       question: 'How can I track my order?',
-      answer: 'Once your order ships, you\'ll receive a tracking number via email. You can track your package on our website or the carrier\'s site.',
+      answer: 'After placing your order via WhatsApp, our team will provide you with regular updates on your order status. You can also contact us anytime through WhatsApp or phone for real-time tracking information.',
+      category: 'Orders'
+    },
+    {
+      question: 'What payment methods do you accept?',
+      answer: 'We currently accept mobile money payments and bank transfers. Payment details will be shared with you after you place your order via WhatsApp. We ensure a secure and convenient payment process.',
+      category: 'Payment'
+    },
+    {
+      question: 'Are the products authentic and quality-guaranteed?',
+      answer: 'Yes, all products on Aloomia are 100% authentic and quality-checked before delivery. We partner with trusted suppliers and manufacturers to ensure you receive genuine, high-quality products.',
+      category: 'Products'
+    },
+    {
+      question: 'How do I place an order?',
+      answer: 'Simply add items to your cart, review your order, and click "Place Order via WhatsApp". You\'ll be redirected to WhatsApp where you can send us your complete order details. Our team will confirm and guide you through the payment and delivery process.',
+      category: 'Orders'
     },
   ];
 
@@ -219,22 +234,40 @@ const Contact = () => {
               {/* FAQ Section */}
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">Frequently Asked Questions</h2>
-                  <p className="text-muted-foreground mb-8">
-                    Quick answers to common questions. Can't find what you're looking for? Send us a message!
+                  <h2 className="text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                    Frequently Asked Questions
+                  </h2>
+                  <p className="text-muted-foreground text-lg mb-8">
+                    Find answers to common questions about our services, delivery, and policies.
                   </p>
                 </div>
 
                 <div className="space-y-4">
                   {faqItems.map((item, index) => (
-                    <Card key={index} className="border-border animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <Card 
+                      key={index} 
+                      className="border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300 animate-fade-in overflow-hidden group" 
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
                       <CardContent className="p-6">
-                        <h3 className="font-semibold text-lg mb-3 text-primary">
-                          {item.question}
-                        </h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {item.answer}
-                        </p>
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold group-hover:scale-110 transition-transform">
+                            Q{index + 1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-3">
+                              <h3 className="font-semibold text-lg text-foreground">
+                                {item.question}
+                              </h3>
+                              <Badge variant="secondary" className="text-xs">
+                                {item.category}
+                              </Badge>
+                            </div>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {item.answer}
+                            </p>
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                   ))}
@@ -248,11 +281,22 @@ const Contact = () => {
                       For urgent matters, call us directly or check our help center
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <Button variant="secondary" size="lg">
+                      <Button 
+                        variant="secondary" 
+                        size="lg"
+                        onClick={() => window.location.href = 'tel:+233538163683'}
+                        aria-label="Call our support team"
+                      >
                         <Phone className="w-5 h-5 mr-2" />
                         Call Now
                       </Button>
-                      <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
+                      <Button 
+                        variant="outline" 
+                        size="lg" 
+                        className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        aria-label="Scroll to top for help center"
+                      >
                         Help Center
                       </Button>
                     </div>
@@ -272,22 +316,27 @@ const Contact = () => {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="border-border hover:shadow-medium transition-all duration-300">
+              <Card className="border-border hover:shadow-medium transition-all duration-300 hover:border-primary/50">
                 <CardContent className="p-8 text-center">
                   <div className="w-16 h-16 bg-blue-500/10 text-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                     <MessageCircle className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-bold mb-3">Live Chat</h3>
                   <p className="text-muted-foreground mb-4">
-                    Chat with our support team in real-time
+                    Chat with our support team via WhatsApp
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => window.open('https://wa.me/233555528622?text=Hello%2C%20I%20need%20help%20with...', '_blank')}
+                    aria-label="Start WhatsApp chat with support"
+                  >
                     Start Chat
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="border-border hover:shadow-medium transition-all duration-300">
+              <Card className="border-border hover:shadow-medium transition-all duration-300 hover:border-primary/50">
                 <CardContent className="p-8 text-center">
                   <div className="w-16 h-16 bg-green-500/10 text-green-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                     <Mail className="w-8 h-8" />
@@ -296,13 +345,18 @@ const Contact = () => {
                   <p className="text-muted-foreground mb-4">
                     Send us an email and we'll respond within 24 hours
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => window.location.href = 'mailto:info@aloomia.com'}
+                    aria-label="Send email to support"
+                  >
                     Send Email
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="border-border hover:shadow-medium transition-all duration-300">
+              <Card className="border-border hover:shadow-medium transition-all duration-300 hover:border-primary/50">
                 <CardContent className="p-8 text-center">
                   <div className="w-16 h-16 bg-purple-500/10 text-purple-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                     <Phone className="w-8 h-8" />
@@ -311,7 +365,12 @@ const Contact = () => {
                   <p className="text-muted-foreground mb-4">
                     Speak directly with our customer service team
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => window.location.href = 'tel:+233538163683'}
+                    aria-label="Call support phone number"
+                  >
                     Call Us
                   </Button>
                 </CardContent>

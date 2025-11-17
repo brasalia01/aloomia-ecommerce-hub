@@ -106,7 +106,13 @@ export const BlogSection = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">By {post.author}</span>
-                    <Button variant="ghost" size="sm" className="group-hover:text-primary">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="group-hover:text-primary"
+                      onClick={() => window.location.href = '/contact'}
+                      aria-label={`Read more about ${post.title}`}
+                    >
                       Read More
                       <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
@@ -124,7 +130,13 @@ export const BlogSection = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center"
         >
-          <Button size="lg" variant="outline" className="border-2">
+          <Button 
+            size="lg" 
+            variant="outline" 
+            className="border-2"
+            onClick={() => window.location.href = '/contact'}
+            aria-label="View all blog articles"
+          >
             View All Articles
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>

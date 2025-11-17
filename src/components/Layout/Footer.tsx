@@ -175,7 +175,7 @@ export const Footer = () => {
 
             <div>
               <h4 className="font-semibold text-foreground mb-4">Follow Us</h4>
-              <div className="flex space-x-3 mb-6">
+              <div className="flex space-x-3">
                 {[
                   { icon: Facebook, href: '#' },
                   { icon: Twitter, href: '#' },
@@ -183,21 +183,11 @@ export const Footer = () => {
                   { icon: Youtube, href: '#' },
                 ].map((social, index) => (
                   <Button key={index} variant="ghost" size="icon" asChild>
-                    <a href={social.href} className="hover:text-primary">
+                    <a href={social.href} className="hover:text-primary" aria-label={`Follow us on ${['Facebook', 'Twitter', 'Instagram', 'Youtube'][index]}`}>
                       <social.icon className="w-5 h-5" />
                     </a>
                   </Button>
                 ))}
-              </div>
-              
-              <div className="space-y-2 text-sm">
-                <p className="font-semibold text-foreground">
-                  Founder: Mr. Salia Abdallah Banda
-                </p>
-                <div className="space-y-1 text-muted-foreground">
-                  <p>📧 sallahbanda442@gmail.com</p>
-                  <p>📱 0538163683 / 0555528622</p>
-                </div>
               </div>
             </div>
           </div>
