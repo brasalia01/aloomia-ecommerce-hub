@@ -110,7 +110,7 @@ export const BlogSection = () => {
                       variant="ghost" 
                       size="sm" 
                       className="group-hover:text-primary"
-                      onClick={() => window.location.href = '/blog'}
+                      onClick={() => window.location.href = `/blog/${post.id}`}
                       aria-label={`Read more about ${post.title}`}
                     >
                       Read More
