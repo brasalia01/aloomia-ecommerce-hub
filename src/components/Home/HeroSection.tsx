@@ -1,13 +1,11 @@
-import { useState, useRef } from 'react';
-import { ArrowRight, ShoppingBag, Star, Zap, Shield, Play, Pause, TrendingUp, Package } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowRight, ShoppingBag, Star, Zap, Shield, TrendingUp, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const HeroSection = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -18,46 +16,21 @@ export const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  const toggleVideo = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   return (
     <section id="home" ref={sectionRef} className="relative min-h-[100dvh] flex items-center overflow-hidden bg-background">
-      {/* Video Background with Parallax */}
-      <motion.div style={{ y }} className="absolute inset-0 overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
-        >
-          <source src="https://cdn.pixabay.com/video/2022/12/06/142229-779456526_large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90" />
-      </motion.div>
-
-      {/* Video Control Button */}
-      <button
-        onClick={toggleVideo}
-        className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-all group"
-        aria-label={isPlaying ? 'Pause video' : 'Play video'}
+      {/* Animated Background with Parallax */}
+      <motion.div 
+        style={{ y }} 
+        className="absolute inset-0 overflow-hidden"
       >
-        {isPlaying ? (
-          <Pause className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:scale-110 transition-transform" />
-        ) : (
-          <Play className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:scale-110 transition-transform ml-0.5" />
-        )}
-      </button>
+        <motion.div
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.1 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-secondary/20"
+        />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=800&fit=crop')] bg-cover bg-center opacity-5" />
+      </motion.div>
 
       {/* Content */}
       <motion.div 

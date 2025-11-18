@@ -291,9 +291,8 @@ const Contact = () => {
                         Call Now
                       </Button>
                       <Button 
-                        variant="outline" 
-                        size="lg" 
-                        className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                        variant="secondary" 
+                        size="lg"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         aria-label="Scroll to top for help center"
                       >

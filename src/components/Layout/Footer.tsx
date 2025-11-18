@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -177,13 +177,11 @@ export const Footer = () => {
               <h4 className="font-semibold text-foreground mb-4">Follow Us</h4>
               <div className="flex space-x-3">
                 {[
-                  { icon: Facebook, href: '#' },
-                  { icon: Twitter, href: '#' },
-                  { icon: Instagram, href: '#' },
-                  { icon: Youtube, href: '#' },
+                  { icon: Twitter, href: '#', label: 'Twitter' },
+                  { icon: Instagram, href: '#', label: 'Instagram' },
                 ].map((social, index) => (
                   <Button key={index} variant="ghost" size="icon" asChild>
-                    <a href={social.href} className="hover:text-primary" aria-label={`Follow us on ${['Facebook', 'Twitter', 'Instagram', 'Youtube'][index]}`}>
+                    <a href={social.href} className="hover:text-primary" aria-label={`Follow us on ${social.label}`}>
                       <social.icon className="w-5 h-5" />
                     </a>
                   </Button>

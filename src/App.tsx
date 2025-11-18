@@ -15,6 +15,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import Compare from './pages/Compare';
 import Testimonials from './pages/Testimonials';
 import Profile from './pages/Profile';
@@ -51,9 +52,10 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/testimonials" element={<Testimonials />} />
             
             <Route path="/profile" element={
               <ProtectedRoute>
