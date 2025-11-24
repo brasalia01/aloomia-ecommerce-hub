@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { WhatsAppWidget } from "@/components/Chat/WhatsAppWidget";
 import Index from './pages/Index';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -42,6 +43,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <WhatsAppWidget />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />

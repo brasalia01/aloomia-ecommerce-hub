@@ -291,10 +291,11 @@ const Contact = () => {
                         Call Now
                       </Button>
                       <Button 
-                        variant="secondary" 
+                        variant="outline" 
                         size="lg"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         aria-label="Scroll to top for help center"
+                        className="bg-card hover:bg-accent border-2"
                       >
                         Help Center
                       </Button>

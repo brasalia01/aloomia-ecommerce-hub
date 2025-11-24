@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
-import { HeroCarousel } from '@/components/Home/HeroCarousel';
+import { HeroSection } from '@/components/Home/HeroSection';
 import { PromotionalBanner } from '@/components/Home/PromotionalBanner';
 import { InteractiveProductShowcase } from '@/components/Home/InteractiveProductShowcase';
 import { FeaturedProducts } from '@/components/Home/FeaturedProducts';
@@ -22,7 +22,7 @@ const Index = () => {
       <Header />
       
       <main>
-        <HeroCarousel />
+        <HeroSection />
         <InteractiveProductShowcase />
         <StatsCounter />
         <FeaturedProducts />

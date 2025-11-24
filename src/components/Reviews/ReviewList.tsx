@@ -3,6 +3,7 @@ import { Star, ThumbsUp, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -27,15 +28,48 @@ interface ReviewListProps {
   productId: string;
 }
 
+type SortOption = 'most-helpful' | 'highest-rated' | 'most-recent';
+
 export const ReviewList = ({ productId }: ReviewListProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<SortOption>('most-helpful');
+  const [filterRating, setFilterRating] = useState<number | null>(null);
 
   useEffect(() => {
     loadReviews();
   }, [productId]);
+
+  useEffect(() => {
+    applyFiltersAndSort();
+  }, [reviews, sortBy, filterRating]);
+
+  const applyFiltersAndSort = () => {
+    let filtered = [...reviews];
+
+    // Apply rating filter
+    if (filterRating !== null) {
+      filtered = filtered.filter(review => review.rating === filterRating);
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case 'most-helpful':
+        filtered.sort((a, b) => b.helpful_count - a.helpful_count);
+        break;
+      case 'highest-rated':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'most-recent':
+        filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        break;
+    }
+
+    setFilteredReviews(filtered);
+  };
 
   const loadReviews = async () => {
     try {
@@ -164,7 +198,52 @@ export const ReviewList = ({ productId }: ReviewListProps) => {
 
   return (
     <div className="space-y-6">
-      {reviews.map((review) => (
+      {/* Filters and Sort Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-4 bg-muted/50 rounded-lg">
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant={filterRating === null ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setFilterRating(null)}
+          >
+            All Reviews
+          </Button>
+          {[5, 4, 3, 2, 1].map((rating) => (
+            <Button
+              key={rating}
+              variant={filterRating === rating ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilterRating(rating)}
+              className="gap-1"
+            >
+              {rating} <Star className="w-3 h-3 fill-current" />
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">Sort by:</span>
+          <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="most-helpful">Most Helpful</SelectItem>
+              <SelectItem value="highest-rated">Highest Rated</SelectItem>
+              <SelectItem value="most-recent">Most Recent</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Reviews List */}
+      {filteredReviews.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No reviews match your filter criteria.</p>
+        </div>
+      ) : (
+        <>
+          {filteredReviews.map((review) => (
         <Card key={review.id} className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -237,7 +316,9 @@ export const ReviewList = ({ productId }: ReviewListProps) => {
             Helpful ({review.helpful_count})
           </Button>
         </Card>
-      ))}
+          ))}
+        </>
+      )}
     </div>
   );
 };
